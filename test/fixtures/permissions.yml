@@ -1,0 +1,17 @@
+one:
+  name: MyString
+  priority: MyString
+  readable: false
+  commentable: false
+  proposable: false
+  remarkable: false
+  votable: false
+
+two:
+  name: MyString
+  priority: MyString
+  readable: false
+  commentable: false
+  proposable: false
+  remarkable: false
+  votable: false

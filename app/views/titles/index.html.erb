@@ -1,0 +1,18 @@
+<% title "Titles" %>
+
+<table>
+  <tr>
+    <th>Text</th>
+	<th>Users</th>
+  </tr>
+  <% for title in @titles %>
+    <tr>
+      <td><%= title.text %></td>
+	  <td><%= title.users.map{|u| link_to u.name, u}.join(', ').html_safe %></td>
+      <td><%= link_to "Edit", edit_title_path(title) %></td>
+      <td><%= link_to "Remove", title, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "Add New Title", new_title_path(:chamber_id => params[:chamber_id] || nil) %></p>

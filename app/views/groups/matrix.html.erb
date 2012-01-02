@@ -1,0 +1,20 @@
+ <table border=1 style="text-align: center;">
+	<tr>
+		<th></th>
+		<% @groups.each do |group| %>
+			<th style="width: 1em;">
+				<%= group.name %>
+			</th>
+		<% end %>
+	</tr>
+	<% @users.each do |user| %>
+		<tr>
+			<td><%= link_to user.name, user %></td>
+			<% @groups.each do |group| %>
+				<td>
+					<%= user.belongs_to?(group) ? "X" : "" %>
+				</td>
+			<% end %>
+		</tr>
+	<% end %>
+ </table>

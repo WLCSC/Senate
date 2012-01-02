@@ -1,0 +1,10 @@
+<div class="comment">
+    <p><%= item.created_at.to_s %><br/>
+	From <%= item.user ? link_to(item.user.name,item.user) : "UNDEFINED" %>, </p>
+	<%= item.content %>
+	<div class="announce_foot">
+		<%= link_to("View #{depth ? depth.to_s+" " : ""}more comments", item) if depth && depth > 0 %>
+		<%= link_to "Reply", new_comment_path(:commentable_type => "Comment", :commentable_id => item.id, :parent_id => item) if can(:comment) %>
+		<%= link_to "Delete", item, :method => :delete if can(:admin) %>
+	</div>
+</div>

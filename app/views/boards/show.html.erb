@@ -1,0 +1,15 @@
+<% title @board.chamber.name + " - " + @board.name %>
+<div class="about">
+  <%= @board.about %>
+</div>
+
+<%= link_to "New Thread", new_comment_path(:commentable_type => "Board", :commentable_id => @board) if can?(:comment) %>
+
+<%= nested_comments @board.comments %>
+
+
+<p>
+  <% if can(:administratable) || current_user.administrator %> <%= link_to "Edit", edit_board_path(@board) %> | <% end %>
+  <% if current_user.administrator %> <%= link_to "Destroy", @board, :confirm => 'Are you sure?', :method => :delete %> | <% end %>
+  <%= link_to "Back to Chamber", @board.chamber %>
+</p>

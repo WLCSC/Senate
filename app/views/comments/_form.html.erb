@@ -1,0 +1,12 @@
+<%= form_for @comment do |f| %>
+  <%= f.error_messages %>
+  <%= f.hidden_field :user_id, :value => current_user.id %>
+  <%= f.hidden_field :parent_id, :value => params[:parent_id]%>
+  <p>
+    <%= f.label :content %><br />
+    <%= f.text_area :content %>
+  </p>
+  <%= f.hidden_field :commentable_id, :value => params[:commentable_id] %>
+  <%= f.hidden_field :commentable_type, :value => params[:commentable_type] %>
+  <p><%= f.submit %></p>
+<% end %>

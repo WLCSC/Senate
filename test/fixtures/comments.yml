@@ -1,0 +1,9 @@
+one:
+  content: MyText
+  user_id: 1
+  ancestry: MyString
+
+two:
+  content: MyText
+  user_id: 1
+  ancestry: MyString

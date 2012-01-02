@@ -1,0 +1,7 @@
+one:
+  klass: MyString
+  foreign_id: 1
+
+two:
+  klass: MyString
+  foreign_id: 1

@@ -1,0 +1,17 @@
+<% title "Proposal Remarks" %>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Vote</th>
+  </tr>
+  <% for proposal_remark in @proposal_remarks %>
+    <tr>
+      <td><%= link_to proposal_remark.user.name, proposal_remark.user %></td>
+      <td><%= proposal_remark.remark==1 ? image_tag("thumbs-up.png") : image_tag("thumbs-down.png") %></td>
+      <% if (current_user.administrator) || (proposal_remark.user == current_user && proposal_remark.proposal.closed == 0) %><td><%= link_to "Un-vote", proposal_remark, :confirm => 'Are you sure?', :method => :delete %></td><% end %>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "Back to Proposal", @proposal_remarks[0].proposal %></p>

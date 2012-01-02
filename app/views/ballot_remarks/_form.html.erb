@@ -1,0 +1,16 @@
+<%= form_for @ballot_remark do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </p>
+  <p>
+    <%= f.label :ballot_id %><br />
+    <%= f.text_field :ballot_id %>
+  </p>
+  <p>
+    <%= f.label :remark %><br />
+    <%= f.text_field :remark %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

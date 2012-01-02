@@ -1,0 +1,21 @@
+<% title "News Items" %>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>User</th>
+	<th>Post Date</th>
+  </tr>
+  <% for news_item in @news_items %>
+    <tr>
+      <td><%= news_item.title %></td>
+      <td><%= news_item.user.name %></td>
+	  <td><%= news_item.created_at %></td>
+      <td><%= link_to "Show", news_item %></td>
+      <td><%= link_to "Edit", edit_news_item_path(news_item) %></td>
+      <td><%= link_to "Destroy", news_item, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New News Item", new_news_item_path %></p>

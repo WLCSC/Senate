@@ -1,0 +1,7 @@
+<% title "Ballots" %>
+
+<% @ballots.each do |ballot| %>
+	<%= render :partial => 'ballots/ballot', :locals => {:item => ballot} %>
+<% end %>
+
+<p><%= link_to "New Ballot", new_ballot_path %></p>

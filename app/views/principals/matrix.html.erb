@@ -1,0 +1,28 @@
+<ul>
+	<li>M: Group members are included</li>
+	<li>I: Included via Group Membership</li>
+	<li>D: Directly inlcuded</li>
+</ul>
+
+ <table border=1 style="text-align: center;">
+	<tr>
+		<th></th>
+		<% @chambers.each do |group| %>
+			<th style="width: 1em;">
+				<%= group.name %>
+			</th>
+		<% end %>
+	</tr>
+	<% @principals.each do |user| %>
+		<tr>
+			<td><%= link_to user.name, user %></td>
+			<% @chambers.each do |group| %>
+				<td>
+					<%= group.principals.include?(user) && user.securable_type == "Group" ? "M" : "" %>
+					<%= group.principals.include?(user) && user.securable_type == "User" ? "D" : "" %>
+					<%= user.securable_type == "User" && group.authoritate(user.securable) ? "I" : "" %>
+				</td>
+			<% end %>
+		</tr>
+	<% end %>
+ </table>

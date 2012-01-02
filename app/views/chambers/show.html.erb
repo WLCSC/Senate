@@ -1,0 +1,72 @@
+<% title @chamber.name %>
+<div class="about">
+  <%= @chamber.about %>
+</div>
+<% if can(:read) %>
+<p style="text-align: center; font-weight: bold;">
+  <% if can(:administratable) || current_user.administrator %> <%= link_to "Edit", edit_chamber_path(@chamber) %> | <%= link_to "Chamber Permissions", chamber_permissions_path(@chamber) %> | <%= link_to "Chamber Titles", chamber_titles_path(@chamber) %> | <% end %>
+  <% if current_user.administrator %> <%= link_to "Destroy", @chamber, :confirm => 'Are you sure?', :method => :delete %> <% end %>
+</p>
+
+<table width="100%" style="text-align: center;">
+	<tr>
+		<td width="50%" rowspan="2">
+		<h2>Announcements</h2>
+			<% if @chamber.announcements.length > 0 %>
+			<% @news.reverse.each do |news| %>
+					<%= render :partial => 'announcements/announcement', :locals => {:item => news, :depth => nil, :center => true} %>
+				<% end %>
+				<%= link_to "See All", chamber_announcements_path(@chamber) %>
+			<% else %>
+				<p>No announcements!</p>
+			<% end %>
+			
+			<%= (" | " + link_to("New Announcement", new_chamber_announcement_path(@chamber))).html_safe if can(:admin)%>
+		</td>
+		<td>
+			<h2>Recent Proposals</h2>
+			<% if @chamber.proposals.length > 0 %>
+				<ul>
+				<% @chamber.proposals.last(5).each do |proposal| %>
+					<li><%= link_to proposal.name, chamber_proposal_path(@chamber, proposal) %></li>
+				<% end %>
+				</ul>
+			<% else %>
+				<p>No proposals yet.</p>
+			<% end %>
+
+			<%= link_to("New Proposal", new_chamber_proposal_path(@chamber))+" | " if can(:propose)%> <%= link_to "View All Proposals", chamber_proposals_path(@chamber) %>
+		</td>
+		<td>
+			<h2>Recent Ballots</h2>
+			<% if @chamber.ballots.length > 0 %>
+				<ul>
+				<% @chamber.ballots.last(5).each do |ballot| %>
+					<li><%= link_to ballot.name, chamber_ballot_path(@chamber, ballot) %></li>
+				<% end %>
+				</ul>
+			<% else %>
+				<p>No ballots yet.</p>
+			<% end %>
+
+			<%= link_to("New Ballot", new_chamber_ballot_path(@chamber))+" | " if can(:admin)%> <%= link_to "View All Ballots",chamber_ballots_path(@chamber) %>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<h2>Discussion Boards</h2>
+			<% if @chamber.boards.length > 0 %>
+			<ul>
+				<% @chamber.boards.each do |news| %>
+					<li><%= link_to news.name, chamber_board_path(@chamber,news) %></li>
+				<% end %>
+			</ul>
+			<% else %>
+				<p>No boards!</p>
+			<% end %>
+			
+			<%= link_to("Add Board", new_chamber_board_path(@chamber))+" | " if can(:administrate) || current_user.administrator%> <%= link_to "View All Boards", chamber_boards_path(@chamber) %>
+		</td>
+	</tr>
+</table>
+<% end %>

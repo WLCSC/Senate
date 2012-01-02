@@ -1,0 +1,21 @@
+<% title @chamber ? "Principals for #{@chamber.name}" : "Principals" %>
+
+<table>
+  <tr>
+    <th>Full Name</th>
+	<th>Object</th>
+  </tr>
+  <% for principal in @principals %>
+    <tr>
+      <td><%= principal ? principal.name : "UNDEFINED" %></td>
+      <td><%= principal ? link_to(principal.securable_name, principal.securable) : "UNDEFINED" %></td>
+      <td><%= link_to "Show", principal %></td>
+      <td><%= link_to "Edit", edit_principal_path(principal) %></td>
+      <td><%= link_to "Destroy", principal, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<% if @chamber %>
+	<%= link_to "Back to Chamber", chamber_path(@chamber) %>
+<% end %>

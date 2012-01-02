@@ -1,0 +1,25 @@
+<% title "Group" %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @group.name %>
+</p>
+<p>
+  <strong>About:</strong>
+  <%= @group.about %>
+</p>
+
+<p>
+	<strong>Members:</strong><ul>
+	<% @group.users.each do |user| %>
+		<li><%= link_to user.name, user %></li>
+	<% end %></ul>
+</p>
+
+<% if current_user.administrator %>
+<p>
+  <%= link_to "Edit", edit_group_path(@group) %> |
+  <%= link_to "Destroy", @group, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", groups_path %>
+</p>
+<% end %>

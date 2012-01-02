@@ -1,0 +1,24 @@
+<%= form_for @group do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :ldap_auth_attribute %><br />
+    <%= f.text_field :auth_attribute %>
+  </p>
+  <p>
+    <%= f.label :ldap_auth_value %><br />
+    <%= f.text_field :auth_value %>
+  </p>
+  <p>
+    <%= f.label :about %><br />
+    <%= f.text_area :about %>
+  </p>
+  <p>
+    <%= f.label :users %><br />
+    <%= f.text_field :user_tokens, 'data-pre' => @group.users.map(&:attributes).to_json %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

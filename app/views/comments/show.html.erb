@@ -1,0 +1,4 @@
+<%= link_to "View Parent", @comment.commentable %>
+
+<%= render :partial => 'comment', :locals => {:item => @comment, :depth => nil} %>
+<div class="nested_comment"><%= nested_comments(@comment.comments,false) %></div>

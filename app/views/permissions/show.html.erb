@@ -1,0 +1,38 @@
+<% title "Permission" %>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @permission.name %>
+</p>
+<p>
+  <strong>Priority:</strong>
+  <%= @permission.priority %>
+</p>
+<p>
+  <strong>Applies To:</strong>
+  <%= link_to @permission.principal.name, @permission.principal %> - <%= link_to @permission.principal.name, @permission.principal %>
+</p>
+<table>
+  <tr>
+    <th>Readable</th>
+    <th>Commentable</th>
+    <th>Proposable</th>
+    <th>Remarkable</th>
+    <th>Votable</th>
+	<th>Administratable</th>
+  </tr>
+    <tr>
+      <td><%= thumb @permission.readable %></td>
+      <td><%= thumb @permission.commentable %></td>
+      <td><%= thumb @permission.proposable %></td>
+      <td><%= thumb @permission.remarkable %></td>
+      <td><%= thumb @permission.votable %></td>
+	  <td><%= thumb @permission.administratable %></td>
+    </tr>
+</table>
+
+<p>
+  <%= link_to "Edit", edit_permission_path(@permission) %> |
+  <%= link_to "Destroy", @permission, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", chamber_permissions_path(@chamber) %>
+</p>

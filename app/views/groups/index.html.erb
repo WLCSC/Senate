@@ -1,0 +1,22 @@
+<% title "Groups" %>
+
+<table>
+  <tr>
+	<th>You?</th>
+    <th>Name</th>
+    <th>About</th>
+	<% if current_user.administrator %><th>LDAP Auth Attribute</th><% end %>
+	<% if current_user.administrator %><th>LDAP Auth Value</th><% end %>
+  </tr>
+  <% for group in @groups %>
+    <tr>
+	  <td><%= thumb group.users.include?(current_user) %></td>
+      <td><%= link_to group.name, group %></td>
+      <td><%= group.about %></td>
+	  <% if current_user.administrator %><td><%= group.auth_attribute || "UNDEFINED" %></td><% end %>
+	  <% if current_user.administrator %><td><%= group.auth_value || "UNDEFINED" %></td><% end %>
+    </tr>
+  <% end %>
+</table>
+
+<% if current_user.administrator %><p><%= link_to "New Group", new_group_path %> | <%= link_to "Group/User Matrix", '/groups/matrix' %></p><% end %>

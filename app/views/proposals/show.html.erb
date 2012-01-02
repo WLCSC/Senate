@@ -1,0 +1,8 @@
+<% title "Proposal ##{@proposal.id}" %>
+
+<%= render :partial => 'proposal', :locals => {:item => @proposal, :depth => nil, :comments => true} %>
+
+<p>
+  <% if current_user.administrator || can(:admin,@proposal.chamber) %><%= link_to "Destroy", @proposal, :confirm => 'Are you sure?', :method => :delete %> | <% end %>
+  <%= link_to "View All", chamber_proposals_path(@proposal.chamber) %>
+</p>

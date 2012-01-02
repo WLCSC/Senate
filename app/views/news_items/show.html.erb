@@ -1,0 +1,20 @@
+<% title "News Item" %>
+
+<p>
+  <strong>Title:</strong>
+  <%= @news_item.title %>
+</p>
+<p>
+  <strong>Content:</strong>
+  <%= @news_item.content %>
+</p>
+<p>
+  <strong>User:</strong>
+  <%= @news_item.user_id %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_news_item_path(@news_item) %> |
+  <%= link_to "Destroy", @news_item, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", news_items_path %>
+</p>

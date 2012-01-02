@@ -1,0 +1,16 @@
+<% title "Principal" %>
+
+<p>
+  <strong>Securable Type:</strong>
+  <%= @principal.securable_type %>
+</p>
+<p>
+  <strong>Securable Object:</strong>
+  <%= @principal.securable.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_principal_path(@principal) %> |
+  <%= link_to "Destroy", @principal, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", principals_path %>
+</p>

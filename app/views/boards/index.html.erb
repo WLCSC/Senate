@@ -1,0 +1,16 @@
+<% title "Boards" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th width="200px">About</th>
+  </tr>
+  <% for board in @boards %>
+    <tr>
+      <td style="text-align: center; padding: 10px;"><%= link_to board.name, chamber_board_path(@chamber, board) %></td>
+      <td style="text-align: center; padding: 10px;"><%= board.about %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Board", new_board_path %></p>

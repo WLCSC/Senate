@@ -1,0 +1,8 @@
+<% title "Edit User" %>
+
+<%= @user.ldap? ? render('ldap_form') : render('form') %>
+
+<p>
+  <%= link_to "Show", @user %> |
+  <%= link_to "View All", users_path %>
+</p>

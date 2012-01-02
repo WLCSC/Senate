@@ -1,0 +1,32 @@
+<% title @chamber ? "Permissions for #{@chamber.name}" : "All Permissions" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+	<th>Principal</th>
+    <th>Priority</th>
+    <th>Readable</th>
+    <th>Commentable</th>
+    <th>Proposable</th>
+    <th>Remarkable</th>
+    <th>Votable</th>
+	<th>Administratable</th>
+  </tr>
+  <% for permission in @permissions %>
+    <tr>
+      <td><%= permission.name %></td>
+	  <td><%= link_to permission.principal.name, permission.principal %></td>
+      <td><%= permission.priority %></td>
+      <td><%= thumb permission.readable %></td>
+      <td><%= thumb permission.commentable %></td>
+      <td><%= thumb permission.proposable %></td>
+      <td><%= thumb permission.remarkable %></td>
+      <td><%= thumb permission.votable %></td>
+	  <td><%= thumb permission.administratable %></td>
+      <td><%= link_to "Edit", edit_permission_path(permission) %></td>
+      <td><%= link_to "Remove", permission, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= @chamber ? link_to("Add Permission", new_chamber_permission_path(@chamber)) : link_to("Add Permission", new_permission_path)%></p>

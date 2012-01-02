@@ -1,0 +1,1 @@
+Principal: <%= select_tag :permission_principal_id, options_for_select(@principals.map{|p| [p.securable.name,p.id]}) %>

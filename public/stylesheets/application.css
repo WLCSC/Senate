@@ -1,0 +1,194 @@
+
+
+body {
+  background-color: #BFAF83;
+  font-family: CrimsonRoman, Times New Roman, serif;
+  font-size: 14px;
+}
+
+a img {
+  border: none;
+}
+
+a:link {color: #293381; text-decoration: underline; }
+a:active {color: #A6A430; text-decoration: underline; }
+a:visited {color: #6C7195; text-decoration: underline; }
+a:hover {color: #A5ACE3; text-decoration: none; }
+
+.clear {
+  clear: both;
+  height: 0;
+  overflow: hidden;
+}
+
+#logo {
+  width: 100%;
+  margin: 0;
+  background-color: #BFAF83;
+background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.35, #BFAF83),
+    color-stop(0.45, #E3D09E),
+    color-stop(0.87, #D4C292),
+    color-stop(0.94, #BFAF83)
+);
+background-image: -moz-linear-gradient(
+    center bottom,
+    #BFAF83 35%,
+    #E3D09E 45%,
+    #D4C292 87%,
+    #BFAF83 94%
+);
+  font-size: 18px;
+	height: 64px;
+
+}
+
+#nav{
+	vertical-align: top;
+	margin-top: -10px;
+	padding-top: 10px;
+}
+
+#logo_img {
+	float: left;
+	padding-right: 20px;
+}
+
+.navLink {
+	display: inline;
+	padding: 10px, 20px;
+	margin: 20px 10px;
+}
+
+.navlink {
+	float: clear;
+}
+
+#container {
+  width: 90%;
+  margin: 0 auto;
+  background-color: #FFEFC4; 
+  padding: 20px 40px;
+  border: solid 1px #A68530;
+  margin-top: 20px;
+}
+
+.flash {
+  width: 50%;
+  padding: 5px 8px;
+  margin: 10px auto;
+  text-align: center;
+}
+
+.flash_notice {
+  background-color: #FFE9AF;
+  border: solid 1px #A68530;
+  font-style: italic;
+}
+
+.flash_error, .flash_alert {
+  background-color: #FFCCAF;
+  border: solid 1px #A65C30;
+  font-weight: bold;
+}
+
+.fieldWithErrors {
+  display: inline;
+}
+
+.error_messages {
+  width: 400px;
+  border: 2px solid #CF0000;
+  padding: 0px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+  font-size: 12px;
+}
+
+.error_messages h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 10px;
+  font-size: 12px;
+  margin: 0;
+  background-color: #c00;
+  color: #fff;
+}
+
+.error_messages p {
+  margin: 8px 10px;
+}
+
+.error_messages ul {
+  margin: 0;
+}
+
+.news {
+	width: 50%;
+	padding: 5px 8px;
+	margin: 10px auto;
+	border: solid thin black;
+}
+
+.dateline {
+	clear: left;
+	border: solid thin black;
+}
+
+.nested_comment {
+	margin-left: 30px;
+	padding-left: 10px;
+	border-left: solid thin #7f7762;
+}
+
+.comment {
+	width: 50%;
+	padding: 5px 8px;
+	margin: 10px 30px;
+	border: solid thin black;
+}
+
+.announce_foot {
+	text-align: right;
+	font-style: italic;
+}
+
+.about {
+	font-style: italic;
+	text-align: center;
+	width: 60%;
+	margin: auto;
+	font-size: 1.33em;
+}	
+
+.proposal {
+	width: 90%;
+	padding: 5px 8px;
+	margin: 10px 30px;
+	border: solid thin black;
+}
+
+.vote_down {
+	background:url(/images/thumbs-down.png) no-repeat;
+	background-position: center center;
+	border: outset thin black;
+}
+
+.vote_up {
+	background:url(/images/thumbs-up.png) no-repeat;
+	background-position: center center;
+	border: outset thin black;
+}
+
+h1 {
+	font-size: 2.5em;
+	text-align: center;
+}
+
+table td{
+	vertical-align: top;
+}

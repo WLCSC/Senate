@@ -1,0 +1,61 @@
+<% 
+totals = {}
+	item.remarks.each do |remark|
+		totals[remark.remark] ? totals[remark.remark] += 1 : totals[remark.remark] = 1
+	end
+	totals = totals.sort{|a,b| b[1] <=> a[1]}
+	@options = YAML.load(item.options).map{|x| x[1]}
+	
+	chart = GoogleChart::PieChart.new('325x75', '', false)
+	chart.fill :background, :solid, {:color => 'FFEFC4'}
+	
+	totals.each do |total|
+		chart.data @options[total[0]-1] + " [#{total[1]}] ", total[1]
+	end
+	
+	chart_url = chart.to_url
+%>
+
+<div class="proposal">
+	<table width="100%">
+		<tr>
+			<td><h2><%= item.name %></h3><p>Proposed by <%= link_to (@chamber ? item.creator.titleize(@chamber): item.creator.name), item.creator %></p></td>
+			<td>
+				<% if item.anonymous %>
+					<%= image_tag chart_url, :onClick => "alert('This is an anonymous ballot.');" %>
+				<% else %>
+					<%= link_to image_tag(chart_url), ballot_ballot_remarks_path(item) %>
+				<% end %>
+			</td>
+			<td style="text-align: right;"><p>Proposal #<%= item.id %><br/><%= item.created_at.to_s %><br/>
+			In <%= link_to item.chamber.name, item.chamber %> </p></td>
+		</tr>
+	</table><%= item.content %><br/><br/>
+	
+	<% if item.closed==true %>
+		<% if item.voted? current_user %>
+			<p>You voted alredy! <%= link_to "Cancel your vote",item.voted?(current_user), :method => :delete %></p>
+		<% else %> 	
+			<%= form_for BallotRemark.new do |f| %> 
+				<%= f.hidden_field :ballot_id, :value => item.id %> 
+				<%= f.hidden_field :user_id, :value => current_user.id %> 
+				<% @options.each do |o| %>
+					<%= f.radio_button :remark, o[0] %>
+					<%= f.label :remark, (o[1]==true ? "Yes" : o[1]) %>
+				<% end %>
+				<%= f.submit "Vote!" %>
+			<% end %>
+		<% end %>
+		<div class="announce_foot">
+		
+		<% if can(:admin, item.chamber) %> 
+			<%= link_to "Close", '/ballots/close?id='+item.id.to_s+'&code=1' %>
+			<%= link_to "Delete", item, :method => :delete %> 
+			
+		<% end %>
+	</div>
+	<% else %>
+		<p>This ballot has been closed.</p>
+	<% end %>
+	
+</div>

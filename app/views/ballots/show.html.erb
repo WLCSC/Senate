@@ -1,0 +1,6 @@
+<%= render :partial => 'ballot', :locals => {:item => @ballot} %>
+
+<p>
+  <% if current_user.administrator || can(:admin,@ballot.chamber) %><%= link_to "Destroy", @ballot, :confirm => 'Are you sure?', :method => :delete %> | <% end %>
+  <%= link_to "View All", chamber_ballots_path(@ballot.chamber) %>
+</p>

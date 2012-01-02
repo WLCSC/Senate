@@ -1,0 +1,19 @@
+<%= form_for @title do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :text %><br />
+    <%= f.text_field :text %>
+  </p>
+  <p>
+    <%= f.label :about %><br />
+    <%= f.text_area :about %>
+  </p>
+  <p>
+    <%= f.label :users %><br />
+    <%= f.text_field :user_tokens, 'data-pre' => @title.users.map(&:attributes).to_json %>
+  </p>
+  <p>
+    <%= f.hidden_field :chamber_id, :value => (@title.chamber ? @title.chamber_id : params[:chamber_id]) %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

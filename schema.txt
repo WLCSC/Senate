@@ -1,0 +1,135 @@
+USER
+	username:string
+	administrator:boolean
+	
+	has_and_belongs_to_many :groups
+	has_many :comments
+	has_many :created_proposals, :class_name => "Proposal"
+	has_many :proposal_remarks
+	has_many :proposals, :through => :proposal_remarks
+	has_many :created_ballots, :class_name => "Ballot"
+	has_many :ballot_remarks
+	has_many :ballots, :through => :ballot_remarks
+	has_many :announcements
+	has_many :news_items
+	has_and_belongs_to_many :titles
+	has_one :principal, :as => :securable
+	
+GROUP
+	name:string
+	
+	has_and_belongs_to_many :users
+	has_one :principal, :as => :securable
+	
+TITLE
+	text:string
+	about:text
+	chamber_id:integer
+	
+	belongs_to :chamber
+	has_and_belongs_to_many :users
+	
+CHAMBER
+	name:string
+	about:text
+	
+	has_many :permissions
+	has_many :principals, :through => :permissions
+	has_many :proposals
+	has_many :ballots
+	has_many :announcements
+	has_many :boards
+	has_many :titles
+	
+PRINCIPAL
+	securable_type:string
+	securable_id:integer
+	
+	belongs_to :securable, :polymorphic => true
+	has_many :permissions
+
+PERMISSION
+	name:string
+	priority:string
+	readable:boolean		#can see stuff
+	commentable:boolean		#can comment on stuff
+	proposable:boolean		#can make new proposals & ballots
+	remarkable:boolean		#can remark on proposals
+	votable:boolean			#can vote on ballots
+	chamber_id:integer
+	principal_id:integer
+	
+	belongs_to :chambers
+	belongs_to :principal
+
+PROPOSAL
+	name:string
+	content:text
+	creator_id:integer
+	
+	has_many :comments, :as => :commentable
+	belongs_to :creator, :class_name => "User"
+	has_many :proposal_remarks
+
+PROPOSAL_REMARK
+	user_id:integer
+	proposal_id:integer
+	remark:integer
+	
+	belongs_to :user
+	belongs_to :proposal
+
+BALLOT
+	name:string
+	content:text
+	options:text
+	creator_id:integer
+	
+	has_many :comments, :as => :commentable
+	belongs_to :creator, :class_name => "User"
+	has_many :ballot_remarks
+
+BALLOT_REMARK
+	user_id: integer
+	ballot_id:integer
+	remark:integer
+	
+	belongs_to :user
+	belongs_to :ballot
+
+ANNOUNCEMENT
+	title:string
+	content:text
+	user_id:user
+	
+	belongs_to :user	
+	has_many :comments, :as => :commentable
+
+COMMENT
+	content:text
+	user_id:integer
+	ancestry:string #also add index here
+	
+	has_ancestry
+	
+	belongs_to :user
+	belongs_to :commentable, :polymorphic => true
+
+NEWS_ITEM
+	title:string
+	content:text
+	user_id:integer
+	
+	belongs_to :user
+
+BOARD
+	name:string
+	about:text
+	
+	has_many :comments, :as => :commentable
+	
+habtm tables for:
+	groups_users
+	chambers_permissions
+	titles_users
+	permissions_principals

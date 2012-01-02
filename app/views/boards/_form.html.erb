@@ -1,0 +1,13 @@
+<%= form_for @board do |f| %>
+  <%= f.error_messages %>
+  <%= f.hidden_field :chamber_id, :value => params[:chamber_id] %>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :about %><br />
+    <%= f.text_area :about %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

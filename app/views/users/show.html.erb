@@ -1,0 +1,20 @@
+<% title "User - #{@user.name} (#{@user.username})" %>
+
+<%= @user.titleize %>
+
+<%= @user.administrator ? "<p style=\"font-weight: bold\">This user is an administrator</p>".html_safe : "" %>
+
+<h2>Groups</h2>
+<ul>
+<% @user.groups.each do |group| %>
+<li><%= link_to group.name, group %></li>
+<% end %>
+</ul>
+
+<% if current_user.administrator %>
+<p>
+  <%= link_to "Edit", edit_user_path(@user) %> |
+  <%= link_to "Destroy", @user, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", users_path %>
+</p>
+<% end %>

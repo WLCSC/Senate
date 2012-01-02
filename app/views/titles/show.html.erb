@@ -1,0 +1,15 @@
+<% title "Title - #{@title.text}" %>
+
+<div class="about">
+  <%= @title.about %>
+</div>
+
+<ul>
+<% @title.users.each do |user| %>
+	<li><%= link_to user.name, user %></li>
+<% end %>
+</ul>
+
+<p>
+  <% if can(:administratable) || current_user.administrator %> <%= link_to "Edit", edit_title_path(@title) %> | <%= link_to "Chamber Titles", titles_path(:chamber_id => @chamber) %> | <%= link_to "Back to Chamber", @chamber %> | <%= link_to "Destroy", @chamber, :confirm => 'Are you sure?', :method => :delete %> <% end %>
+</p>

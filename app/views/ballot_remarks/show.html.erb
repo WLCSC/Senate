@@ -1,0 +1,20 @@
+<% title "Ballot Remark" %>
+
+<p>
+  <strong>User:</strong>
+  <%= @ballot_remark.user_id %>
+</p>
+<p>
+  <strong>Ballot:</strong>
+  <%= @ballot_remark.ballot_id %>
+</p>
+<p>
+  <strong>Remark:</strong>
+  <%= @ballot_remark.remark %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_ballot_remark_path(@ballot_remark) %> |
+  <%= link_to "Destroy", @ballot_remark, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", ballot_remarks_path %>
+</p>

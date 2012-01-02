@@ -1,0 +1,47 @@
+<div class="proposal" <%= item.closed == -1 ? 'style="background-color: #E1E1E1;"' : ""%>>
+	<table width="100%">
+		<tr>
+			<td><h2><%= item.name %></h3><p>Proposed by <%= link_to (@chamber ? item.creator.titleize(@chamber): item.creator.name), item.creator %></p></td>
+			<td><div style="vertical-align: middle; float: left;">
+				<%= link_to image_tag(proposal_chart(item)), proposal_proposal_remarks_path(item) %>
+			</td>
+			<td style="text-align: right;"><p>Proposal #<%= item.id %><br/><%= item.created_at.to_s %><br/>
+			In <%= link_to item.chamber.name, item.chamber %></p></td>
+		</tr>
+	</table><%= item.content %><br/><br/>
+	
+	<% if item.closed==0 || item.closed==nil %>
+		<% if item.voted? current_user %>
+			<p>You voted alredy! <%= link_to "Cancel your vote",item.voted?(current_user), :method => :delete %></p>
+		<% else %> 	
+			<%= form_for ProposalRemark.new do |f| %> 
+				<%= f.hidden_field :proposal_id, :value => item.id %> 
+				<%= f.hidden_field :user_id, :value => current_user.id %> 
+				<%= image_tag "thumbs-up.png" %><%= f.radio_button :remark, 1, :class=>"vote_up"%><%= f.submit "Vote!" %><%= f.radio_button :remark, 0, :class=>"vote_down"%><%= image_tag "thumbs-down.png" %>
+			<% end %>
+		<% end %>
+		<div class="announce_foot">
+		<% if comments %>
+			<%= link_to("View #{depth ? depth.to_s+" " : ""}more comments", item) if depth && depth > 0 %>
+			<%= link_to "Reply", new_comment_path(:commentable_type => "Proposal", :commentable_id => item.id, :parent_id => item) %>
+		<% else %>
+			<%= link_to "Read Comments", item %>
+		<% end %>
+		
+		<% if can(:admin, item.chamber) %> 
+			<%= link_to "Close", '/proposals/close?id='+item.id.to_s+'&code=1' %>  
+			<%= link_to "Kill", '/proposals/close?id='+item.id.to_s+'&code=-1' %>
+			<%= link_to "Delete", item, :method => :delete %> 
+			
+		<% end %>
+	</div>
+	<% else %>
+		<p><%= item.closed==1 ? "This proposal is closed." : "This proposal has been killed" %></p>
+	<% end %>
+	
+</div>
+<% if comments %>
+<div class="nested_comment">
+	<%= nested_comments item.comments %>
+</div>
+<% end %>

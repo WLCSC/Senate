@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for?(:title) ? "Senate - " + yield(:title) : "Senate" %></title>
+	<link rel="shortcut icon" href="favicon.ico">
+    <%= stylesheet_link_tag "crimson" %>
+	<%= stylesheet_link_tag "application" %>
+	<%= stylesheet_link_tag "token-input-facebook" %>
+    <%= javascript_include_tag :all %>
+    <%= csrf_meta_tag %>
+    <%= yield(:head) %>
+  </head>
+  <body>
+	<div id="logo">
+		<%= link_to image_tag('logo.png', :id => 'logo_img'), root_path %>
+		<div id="nav">
+			<% if current_user %>
+			<div class="navLink"><%= link_to 'Log Out', '/sessions/destroy/' %></div>
+			<div class="navLink"><%= link_to image_tag('gproposal.png', :size=>"16x16")+'Proposals', chamber_proposals_path(@chamber) %></div>
+			<div class="navLink"><%= %><%= link_to image_tag('ballot.png', :size=>"16x16")+'Ballots', chamber_ballots_path(@chamber) %></div>
+			<div class="navLink"><%= link_to image_tag('board.png', :size=>"16x16")+'Boards', chamber_boards_path(@chamber) %></div>
+			<% else %>
+			<div class="navLink"><%= link_to 'Log In', root_path %></div>
+			<% end %>
+		</div>
+	</div>
+    <div id="container">
+		<% flash_index = 0 %>
+      <% flash.each do |flash_type, message| %>
+		<%= content_tag :div, message, :class => "flash flash_#{flash_type}", :id => "flash#{flash_index}" %>
+		<% content_tag :script, :type => "text/javascript" do %>
+			setTimeout("$$('div.flash').each(function(flash){ Effect.BlindUp(flash.identify());})", 10000);
+		<% end %>
+		<% flash_index += 1 %>
+	  <% end %>
+
+      <%= content_tag :h1, yield(:title) if show_title? %>
+      <%= yield %>
+    </div>
+  </body>
+</html>

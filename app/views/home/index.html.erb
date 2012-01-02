@@ -1,0 +1,35 @@
+<table width="100%">
+<tr>
+<td>
+<h2>News</h2>
+<% if @news.length > 0 %>
+	<% @news.each do |news| %>
+		<%= render :partial => 'news_items/news', :locals => {:item => news} %>
+	<% end %>
+<% else %>
+	<p>No news items!</p>
+<% end %>
+
+<p><%= link_to("Submit New News", new_news_item_path) if current_user && current_user.administrator %></p>
+</td><td>
+<% if current_user %>
+	<h2>Your Chambers</h2>
+	<ul>
+	<% Chamber.all.each do |chamber| %>
+		<li><%= link_to chamber.name, chamber if chamber.users.include? current_user%></li>
+	<% end %>
+	</ul>
+<% else %>
+	<%= form_tag '/sessions' do %>  
+      <p>  
+        <%= label_tag :username %><br />  
+        <%= text_field_tag :username, params[:username] %>  
+      </p>  
+      <p>  
+        <%= label_tag :password %><br />  
+        <%= password_field_tag :password %>  
+      </p>  
+      <p class="button"><%= submit_tag "Log In" %></p>  
+    <% end %>  
+<% end %>
+</td></tr></table>

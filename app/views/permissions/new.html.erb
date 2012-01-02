@@ -1,0 +1,5 @@
+<% title @chamber ? "New Permission for #{@chamber.name}" : "New Permission" %>
+
+<%= render 'form' %>
+
+<p><%= link_to "Back to List", permissions_path %></p>

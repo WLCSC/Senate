@@ -1,0 +1,20 @@
+<% title "Proposal Remark" %>
+
+<p>
+  <strong>User:</strong>
+  <%= @proposal_remark.user_id %>
+</p>
+<p>
+  <strong>Proposal:</strong>
+  <%= @proposal_remark.proposal_id %>
+</p>
+<p>
+  <strong>Remark:</strong>
+  <%= @proposal_remark.remark %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_proposal_remark_path(@proposal_remark) %> |
+  <%= link_to "Destroy", @proposal_remark, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", proposal_remarks_path %>
+</p>

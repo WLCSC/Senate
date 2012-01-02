@@ -1,0 +1,3 @@
+<% @proposals.each do |proposal| %>
+	<%= render :partial => 'proposal', :locals => {:item => proposal, :depth => nil, :comments => false} %>
+<% end %>

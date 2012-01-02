@@ -1,0 +1,8 @@
+<% title "Proposals" %>
+
+<p><% if can(:propose,@chamber) %><%= link_to "Submit New Proposal", new_proposal_path %> | <% end %><%= link_to "Back to Chamber", @chamber %></p>
+
+<div id="proposals"><%= render :partial => 'proposals' %></div>
+
+
+<p><% if can(:propose,@chamber) %><%= link_to "Submit New Proposal", new_proposal_path %> | <% end %><%= link_to "Back to Chamber", @chamber %></p>

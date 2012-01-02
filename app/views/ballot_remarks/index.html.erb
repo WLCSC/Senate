@@ -1,0 +1,17 @@
+<% title "Ballot Remarks" %>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Remark</th>
+  </tr>
+  <% for ballot_remark in @ballot_remarks %>
+    <tr>
+      <td><%= link_to ballot_remark.user.name, ballot_remark.user %></td>
+      <td><%= @options[ballot_remark.remark] %></td>
+      <% if ballot_remark.user == current_user || current_user.administrator %><td><%= link_to "Un-vote", ballot_remark, :confirm => 'Are you sure?', :method => :delete %></td><% end %>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "Back to Ballot", @ballot_remarks[0].ballot %></p>

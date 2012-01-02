@@ -1,0 +1,14 @@
+<% title "Users" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Administrator</th>
+  </tr>
+  <% for user in @users %>
+    <tr>
+      <td><%= link_to user.name, user %></td>
+      <td><%= user.administrator ? "Yes" : "No" %></td>
+    </tr>
+  <% end %>
+</table>

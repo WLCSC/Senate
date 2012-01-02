@@ -1,0 +1,9 @@
+one:
+  name: MyString
+  about: MyText
+  chamber_id: 1
+
+two:
+  name: MyString
+  about: MyText
+  chamber_id: 1

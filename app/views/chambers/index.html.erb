@@ -1,0 +1,18 @@
+<% title "Chambers" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th width="200px">About</th>
+	<th>Administrators</th>
+  </tr>
+  <% for chamber in @chambers %>
+    <tr>
+      <td><%= can(:read, chamber) ? link_to(chamber.name, chamber) : chamber.name %></td>
+      <td style="text-align: center; padding: 10px;"><%= chamber.about %></td>
+	  <td style="text-align: center; padding: 10px;"><%= chamber.admins.map{|u| link_to u.name, u}.join(", ").html_safe%></td>
+    </tr>
+  <% end %>
+</table>
+
+<% if current_user.administrator %><p><%= link_to "New Chamber", new_chamber_path %></p><% end %>

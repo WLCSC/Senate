@@ -1,0 +1,2 @@
+module BallotRemarksHelper
+end

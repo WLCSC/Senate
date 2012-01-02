@@ -1,0 +1,5 @@
+<% title "Announcements" %>
+<% @announcements.reverse.each do |announcement| %>
+	<%= render :partial => 'announcement', :locals => {:item => announcement, :depth => nil, :center => true} %>
+<% end %>
+<p><%= link_to "New Announcement", new_announcement_path if can(:admin)%></p>
