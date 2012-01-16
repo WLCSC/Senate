@@ -20,6 +20,7 @@ end
   def new
     @comment = Comment.new
 	@comment.commentable = params[:commentable_type], params[:commentable_id]
+	@chamber = @comment.commentable.chamber
   end
 
   def create

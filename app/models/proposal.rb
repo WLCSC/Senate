@@ -25,5 +25,9 @@ class Proposal < ActiveRecord::Base
 		false
 	end
   end
+
+  def user
+	self.creator
+  end
 end
 
