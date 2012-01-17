@@ -1,0 +1,3 @@
+This is Senate!
+
+More documentation to come.  For now, all you need to know is that it's a brainstorming, idea management, and voting Rails app.  If you want to play with it, all authentication is LDAP based at the moment - I'm working on non-LDAP users right now.

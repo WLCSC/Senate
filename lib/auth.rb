@@ -33,3 +33,27 @@ def ldap_populate user, pass
 		false
 	end
 end
+
+def ldap_search user
+	if l = SimpleLdapAuthenticator.search(user)
+		puts 'Found '+l.length.to_s
+		l
+	else
+		nil
+	end
+end
+
+def ldap_regroup user, pass
+	if l = SimpleLdapAuthenticator.valid?(user,pass)[0]
+		u = User.new
+		
+		Group.all.each do |group|
+			group.users << u if(l[group.auth_attribute.to_sym].include? group.auth_value)
+		end
+		u.save
+		u
+	else
+		false
+	end
+end
+

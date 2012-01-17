@@ -19,8 +19,11 @@
 	Numbers come before capital letters come before small letters!
   </p>
   </td><td>
-  
+  <% if @permission.principal %>
+    Applies to <%= @permission.principal.name %>
+  <% else %>
     Applies to:
+  <% end %>
   <p>
 	Group: <%= select_tag :principal_group, options_for_select(@groups.map{|g| [g.name, g.id]}) %></p>
 	<p id="principal" style="display: inline;"><%= render :partial => 'principal_select', :locals => {:f => f} %></p>

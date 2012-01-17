@@ -6,6 +6,9 @@ def find_chamber
 	if params[:chamber_id]
 		@chamber = Chamber.find params[:chamber_id]
 	end
+	if params[:ballot_id]
+		@chamber = Ballot.find(params[:ballot_id]).chamber
+	end
 end	
   def index
     @ballot_remarks = BallotRemark.all

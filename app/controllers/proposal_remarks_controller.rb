@@ -6,9 +6,16 @@ def find_chamber
 	if params[:chamber_id]
 		@chamber = Chamber.find params[:chamber_id]
 	end
+	if params[:proposal_id]
+		@chamber = Proposal.find(params[:proposal_id]).chamber
+	end
 end	
   def index
-    @proposal_remarks = ProposalRemark.all
+	if params[:proposal_id]
+	    @proposal_remarks = Proposal.find(params[:proposal_id]).remarks
+	else
+	    @proposal_remarks = ProposalRemark.all
+	end
   end
 
   def show
