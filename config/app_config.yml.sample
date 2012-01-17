@@ -1,0 +1,23 @@
+development:
+  #your domain name - used for logging in as "domain\you"
+  ldap_domain_login: test
+  #your email domain name
+  ldap_domain_email: test.com
+  ldap_domain_controller: dc.test.com
+  #this doesn't have to be an OU - just a group works.
+  ldap_domain_administrator_ou: CN=Admins,OU=Groups,DC=test,DC=com
+  #we do search for users - where should we look?
+  ldap_user_search_base: dc=test,dc=com
+  #who sends exception notifications?
+  email_support_from: support@nowhere
+  #who gets exception notifications?
+  email_support_recipients: support@nowhere
+  
+test:
+  domain: test.host
+
+production:
+  domain: example.com
+
+  
+  
