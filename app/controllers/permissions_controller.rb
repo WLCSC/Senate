@@ -1,8 +1,20 @@
 class PermissionsController < ApplicationController
+	before_filter :find_chamber
   # GET /permissions
   # GET /permissions.json
   def index
-    @permissions = Permission.all
+    
+    if params[:board_id]
+		@board = Board.find(params[:board_id])
+		@permissions = @board.permissions.all
+		@securable = @board
+	elsif params[:proposal_id]
+		@proposal = Proposal.find(params[:proposal_id])
+		@permissions = @proposal.permissions.all
+		@securable = @proposal
+    else
+	@permissions = @chamber.permissions.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,10 +27,15 @@ class PermissionsController < ApplicationController
   def show
     @permission = Permission.find(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @permission }
+    case @permission.securable_type
+    when 'Chamber'
+	    redirect_to chamber_permissions_path(@permission.securable)
+    when 'Board'
+	    redirect_to chamber_board_permissions_path(@permission.securable.chamber, @permission.securable)
+    when 'Proposal'
+	    redirect_to chamber_proposal_permissions_path(@permission.securable.chamber, @permission.securable)
     end
+    
   end
 
   # GET /permissions/new
@@ -44,7 +61,7 @@ class PermissionsController < ApplicationController
 
     respond_to do |format|
       if @permission.save
-        format.html { redirect_to @permission, notice: 'Permission was successfully created.' }
+        format.html { redirect_to (@permission.securable.is_a?(Chamber) ? [@permission.securable, @permission] : [@permission.securable.chamber, @permission.securable, @permission]), notice: 'Permission was successfully created.' }
         format.json { render json: @permission, status: :created, location: @permission }
       else
         format.html { render action: "new" }
@@ -73,11 +90,14 @@ class PermissionsController < ApplicationController
   # DELETE /permissions/1.json
   def destroy
     @permission = Permission.find(params[:id])
-    @permission.destroy
-
-    respond_to do |format|
-      format.html { redirect_to permissions_url }
-      format.json { head :no_content }
+    case @permission.securable_type
+    when 'Chamber'
+	    redirect_to chamber_permissions_path(@permission.securable)
+    when 'Board'
+	    redirect_to chamber_board_permissions_path(@permission.securable.chamber, @permission.securable)
+    when 'Proposal'
+	    redirect_to chamber_proposal_permissions_path(@permission.securable.chamber, @permission.securable)
     end
+    @permission.destroy
   end
 end

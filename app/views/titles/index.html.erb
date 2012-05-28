@@ -1,0 +1,19 @@
+<h1>Titles in <%= @chamber.title %></h1>
+
+<table class="table table-striped">
+	<tr>
+		<th>Text</th>
+		<th>Users</th>
+	</tr>
+	<% for title in @titles %>
+		<tr>
+			<td><%= link_to title.title, [@chamber, title] %></td>
+			<td><%= title.users.map{|u| link_to u.name, u}.join(', ').html_safe %></td>
+			<td><%= link_to "Edit", edit_chamber_title_path(@chamber, title), :class => "btn btn-info btn-mini" %></td>
+			
+		</tr>
+	<% end %>
+</table>
+
+<%= link_to "Add New Title", new_chamber_title_path(@chamber), :class => "btn btn-primary" %>
+

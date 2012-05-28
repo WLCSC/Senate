@@ -1,0 +1,19 @@
+<%= form_for [@chamber, @event] do |f| %>
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title, :placeholder => 'Briefly describe your event' %>
+  </p>
+  <p>
+    <%= f.label :notes %><br />
+    <%= f.text_area :notes, :placeholder => 'Describe your event in detail' %>
+    </p>
+  <p>
+    <%= f.label :time %><br />
+    <%= f.text_field :timestring, :placeholder => 'MM/DD/YYYY HH:MM' %>
+  </p>
+  
+	<%= f.hidden_field :chamber_id, :value => params[:chamber_id] %>
+	<p><%= f.submit :class => 'btn btn-primary' %></p>
+<% end %>
+
+

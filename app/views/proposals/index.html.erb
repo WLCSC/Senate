@@ -1,0 +1,8 @@
+<h1>Proposals in <%= @chamber.title %></h1>
+
+<% @proposals.each do |proposal| %>
+	<%= render :partial => 'proposal', :locals => {:item => proposal} %>
+<% end %>
+
+
+<% if can(:write) %><%= link_to "Submit New Proposal", new_chamber_proposal_path(@chamber), :class => 'btn btn-primary' %> <% end %>

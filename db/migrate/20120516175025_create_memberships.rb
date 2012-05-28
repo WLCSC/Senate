@@ -1,6 +1,6 @@
 class CreateMemberships < ActiveRecord::Migration
   def change
-    create_table :memberships do |t|
+    create_table :memberships, :id => false do |t|
       t.integer :group_id
       t.integer :user_id
 

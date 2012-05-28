@@ -1,0 +1,41 @@
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+			<a class="brand" href="/">Senate</a>
+			<div class="container nav-collapse">
+				<ul class="nav">
+					<% if current_user %>
+						<li><%= link_to current_user.name, current_user %></li>
+						<li><%= link_to i('user') + "Log Out", '/sessions/destroy' %></li>
+						<li class="divider-vertical"></li>
+						<% if @chamber && @chamber.id %>
+							<li><%= link_to i('briefcase') + @chamber.title, @chamber %></li>
+							<li><%= link_to i('inbox') + 'Proposals', chamber_proposals_path(@chamber) %></li>
+							<li><%= link_to i('file') + 'Ballots', chamber_ballots_path(@chamber) %></li>
+							<li><%= link_to i('comment') + 'Discussion Boards', chamber_boards_path(@chamber) %></li>
+							<li><%= link_to i('globe') + 'Events', chamber_events_path(@chamber) %></li>
+							<% if can(:execute, @chamber) %>
+								<li><%= link_to i('lock') + "Permissions", chamber_permissions_path(@chamber) %></li>
+								<li><%= link_to i('bullhorn') + "Titles", chamber_titles_path(@chamber) %></li>
+							<% end %>
+							<li class="divider-vertical"></li>
+						<% end %>
+
+						<li><%= link_to i('briefcase') + "Chambers", chambers_path %></li>
+						<% if current_user.admin? %>
+							<li><%= link_to i('user') + "Users", users_path %></li>
+							<li><%= link_to i('list-alt') + "Groups", groups_path %></li>
+						<% end %>
+					<% else %>
+						<li><%= link_to "Log In", '/' %></li>
+					<% end %>
+				</ul>
+			</div><!--/.nav-collapse -->
+		</div>
+	</div>
+</div>

@@ -1,0 +1,9 @@
+<%= form_for [@chamber, @announcement] do |f| %>
+	<%= f.hidden_field :chamber_id, :value => params[:chamber_id] %>
+	<%= f.hidden_field :user_id, :value => current_user.id %>
+  <p>
+  <%= f.text_area :content, :placeholder => 'What is it you are announcing?' %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>
+

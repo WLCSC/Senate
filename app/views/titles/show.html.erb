@@ -1,0 +1,29 @@
+<h1>Title - <%= @title.title %></h1>
+
+<%= markdown @title.notes %>
+
+<h3>Users</h3>
+<table class="table table-condensed table-bordered table-striped" %>
+	<% @title.users.in_groups_of(6) do |group| %>
+		<tr>
+			<% group.each do |user| %>
+				<td><%= link_to user.name, user if user %></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
+
+
+<% if can(:execute)%>
+	<h4>Add/Remove User</h4>
+<% @all_users = User.all.map{|u| u.name} %>
+	<%= form_tag change_chamber_title_path(@chamber, @title) do %>
+		<%= text_field_tag :name, '', :placeholder => "User", :"data-provide" => 'typeahead', :'data-items' => @all_users.count, :"data-source" => @all_users.to_s, :autocomplete => false %><br/>
+		<%= submit_tag "OK", :class => 'btn btn-primary' %>
+	<% end %>
+
+	<%= link_to "Edit", edit_chamber_title_path(@chamber,@title), :class => 'btn btn-inverse' %> 
+	<%= link_to "Destroy", [@chamber, @title], :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-danger' if @title.users.count == 0 %> 
+<% end %>
+
+

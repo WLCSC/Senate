@@ -1,0 +1,6 @@
+<p><%= link_to "Back to Chamber", @announcement.chamber %> | <%= link_to "All Announcments", chamber_announcements_path(@chamber) %></p>
+
+<%= render :partial => 'announcement', :locals => {:item => @announcement, :depth => 3, :center => false} %>
+<div class="nested_comment"><%= nested_comments(@announcement.comments,false, 3) %>
+	<%= render :partial => 'comments/form', :locals => {:parent => @announcement} %>
+</div>

@@ -1,0 +1,6 @@
+<h1>Announcements in <%= @chamber.title %></h1>
+
+<% @announcements.each do |announcement| %>
+	<%= render :partial => 'announcement', :locals => {:item => announcement} %>
+<% end %>	
+<%= link_to "Post New Announcement", new_chamber_announcement_path(@chamber), :class => 'btn btn-primary' if can(:execute) %>

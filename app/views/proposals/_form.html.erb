@@ -1,0 +1,15 @@
+<%= form_for [@chamber, @proposal] do |f| %>
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title, :placeholder => 'Briefly describe your proposal' %>
+  </p>
+  <p>
+    <%= f.label :content %><br />
+    <%= f.text_area :content, :placeholder => 'Describe your proposal in detail' %>
+  </p>
+  
+  <%= f.hidden_field :user_id, :value => current_user.id %>
+  <%= f.hidden_field :closed, :value => false %>
+	<%= f.hidden_field :chamber_id, :value => params[:chamber_id] %>
+	<p><%= f.submit :class => 'btn btn-primary' %></p>
+<% end %>

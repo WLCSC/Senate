@@ -1,0 +1,9 @@
+<%= form_for @news_item do |f| %>
+  <p>
+    <%= f.label :content %><br />
+    <%= f.text_area :content %>
+  </p>
+  <%= f.hidden_field :user_id, :value => current_user.id %>
+  <p><%= f.submit %></p>
+<% end %>
+

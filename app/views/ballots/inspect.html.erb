@@ -1,0 +1,40 @@
+<% 
+	require 'google_chart'
+	totals = {}
+	@ballot.ballot_remarks.each do |remark|
+		totals[remark.remark] ? totals[remark.remark] += 1 : totals[remark.remark] = 1
+	end
+	totals = totals.sort{|a,b| b[1] <=> a[1]}
+	named_totals = {}
+	totals.each do |i|
+		named_totals[@ballot.options[i[0]]] = i[1]
+	end
+
+	GoogleChart::PieChart.new('800x320', "Ballot Votes", false) do |c|
+		@ballot.options.each_pair do |i, v|
+			if named_totals.has_key?(v)
+				c.data "#{v} - #{named_totals[v]}", named_totals[v]
+			else
+				c.data "#{v} - 0", 0
+			end
+		end
+		@chart = c.to_url
+	end
+%>
+
+<div style="display: block; margin-left: auto;"><%= image_tag @chart, :size => '800x320' %></div>
+
+<% unless @ballot.anonymous %>
+<% @ballot.options.each_pair do |i, k| %>
+	<h3><%= k %> - <%= named_totals[k] || 0 %></h3>
+	<table class="table table-condensed table-bordered table-striped" %>
+		<% @ballot.ballot_remarks.where(:remark => i).in_groups_of(6) do |group| %>
+		<tr>
+			<% group.each do |r| %>
+				<td><%= link_to r.user.name, r.user if r %></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
+<% end %>
+<% end %>

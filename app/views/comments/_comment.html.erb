@@ -1,0 +1,15 @@
+<div class="comment">
+    <p><%= item.created_at %><br/>
+	From <%= item.user ? link_to(item.user.titleize(@chamber),item.user) : "UNDEFINED" %>, </p>
+	<%= item.content %>
+	<div class="announce_foot">
+		<%= link_to "Back", [@chamber, item.commentable], :class => 'btn btn-mini btn-warning' if parent %>
+		<%= link_to("Comments", [@chamber, item.commentable, item], :class => 'btn btn-mini btn-info') if can(:read, item.superparent) %>
+		<% if ((@proposal || @ballot) && !(@proposal || @ballot).closed) || !(@proposal || @ballot) %>
+			<%= link_to "Reply", [@chamber, item.commentable, item], :class => 'btn btn-mini btn-inverse' if can(:write, item.superparent)  %>
+		<% end %>
+		<% if can(:execute, item.superparent) %>
+			<%= link_to "Delete", [@chamber, item.commentable, item], :method => :delete, :class => 'btn btn-mini btn-danger', :confirm => "Really delete comment?" %>
+		<% end %>
+	</div>
+</div>

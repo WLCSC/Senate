@@ -1,29 +1,32 @@
-<h1>Listing permissions</h1>
-
-<table>
-  <tr>
-    <th>Priority</th>
-    <th>Securable</th>
-    <th>Securable type</th>
-    <th>Principal</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @permissions.each do |permission| %>
-  <tr>
-    <td><%= permission.priority %></td>
-    <td><%= permission.securable_id %></td>
-    <td><%= permission.securable_type %></td>
-    <td><%= permission.principal_id %></td>
-    <td><%= link_to 'Show', permission %></td>
-    <td><%= link_to 'Edit', edit_permission_path(permission) %></td>
-    <td><%= link_to 'Destroy', permission, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+<% @securable ||= @chamber %>
+<h1>Permissions for <%= @securable.title %></h1>
+<table class="table table-striped">
+  <thead>
+	  <tr>
+		  <th>You?</th>
+      <th>Priority</th>
+      <th>Applies To</th>
+      <th>Read</th>
+      <th>Write</th>
+      <th>Administrate</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+	  <% @permissions.sort_by{|x| x.priority}.each do |permission| %>
+	    <tr>
+		    <td><%= truthy_thumb permission.authorizes?(current_user) %></td>
+        <td><%= permission.priority %></td>
+        <td><%= permission.principal.name %></td>
+        <td><%= truthy_thumb permission.read %></td>
+        <td><%= truthy_thumb permission.write %></td>
+        <td><%= truthy_thumb permission.execute %></td>
+        <td>
+          <%= link_to 'Delete', chamber_permission_path(@chamber, permission), :method => :delete, :confirm => "Are you sure?", :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
-
-<br />
-
-<%= link_to 'New Permission', new_permission_path %>
+<h2>Add New Permission</h2>
+<%= render :partial => 'form' %>

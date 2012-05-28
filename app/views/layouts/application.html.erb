@@ -1,14 +1,31 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Senate2</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title><%= content_for?(:title) ? yield(:title) : "Senate" %></title>
+		<%= csrf_meta_tags %>
 
-<%= yield %>
+		<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+		<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+		<![endif]-->
 
-</body>
+		<%= javascript_include_tag "application" %>
+		<%= stylesheet_link_tag "application", :media => "all" %>
+	</head>
+	<body>
+
+		<%= render :partial => 'home/navbar' %>
+
+		<div class="container">
+			<div class="content">
+				<div class="row">
+					<div class="span12">
+						<%= yield %>
+					</div>
+				</div><!--/row-->
+			</div><!--/content-->
+		</div> <!-- /container -->
+	</body>
 </html>

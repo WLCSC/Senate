@@ -1,0 +1,34 @@
+<% 
+	require 'google_chart'
+
+	GoogleChart::PieChart.new('800x320', "Ballot Votes", false) do |c|
+		c.data "Yes - #{@proposal.positive}", @proposal.positive
+		c.data "No - #{@proposal.negative}", @proposal.negative
+		@chart = c.to_url
+	end
+%>
+
+<div style="display: block; margin-left: auto;"><%= image_tag @chart, :size => '800x320' %></div>
+
+
+<h3>Yes - <%= @proposal.positive %></h3>
+<table class="table table-condensed table-bordered table-striped" %>
+	<% @proposal.proposal_remarks.where(:remark => true).in_groups_of(6) do |group| %>
+		<tr>
+			<% group.each do |r| %>
+				<td><%= link_to r.user.name, r.user if r %></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
+
+<h3>No - <%= @proposal.negative %></h3>
+<table class="table table-condensed table-bordered table-striped" %>
+	<% @proposal.proposal_remarks.where(:remark => false).in_groups_of(6) do |group| %>
+		<tr>
+			<% group.each do |r| %>
+				<td><%= link_to r.user.name, r.user if r %></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>

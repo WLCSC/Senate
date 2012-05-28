@@ -80,4 +80,20 @@ class GroupsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def change
+	@group = Group.find(params[:id])
+	@user = User.where(:name => params[:name]).first
+
+	q = ""
+	if @group.users.include? @user
+		@group.users.delete @user
+		q = "Removed "
+	else
+		@group.users << @user
+		q = "Added "
+	end
+
+	redirect_to @group, :info => q + "user to group."
+  end
 end

@@ -1,0 +1,7 @@
+<h1>Events in <%= @chamber.title %></h1>
+
+<% @events.each do |event| %>
+	<%= render :partial => 'event', :locals => {:item => event} %>
+<% end %>
+
+<%= link_to "Create New Event", new_chamber_event_path(@chamber), :class => 'btn btn-primary' %>

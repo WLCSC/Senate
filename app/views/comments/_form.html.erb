@@ -1,0 +1,9 @@
+<% if can(:write, parent.superparent) %>
+<%= form_for [@chamber, parent, Comment.new] do |f| %>
+  <%= f.hidden_field :user_id, :value => current_user.id %>
+  <%= f.text_area :content, :placeholder => 'Got something to say?', :size => '30x4' %>
+  <%= f.hidden_field :commentable_id, :value => parent.id %>
+  <%= f.hidden_field :commentable_type, :value =>parent.class.to_s %>
+  <p><%= f.submit "Add Comment", :class => 'btn btn-primary' %></p>
+<% end %>
+<% end %>

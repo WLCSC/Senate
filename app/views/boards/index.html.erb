@@ -1,0 +1,7 @@
+<h1>Discussion Boards in <%= @chamber.title %></h1>
+
+<% @boards.each do |board| %>
+	<%= render :partial => 'boards/board', :locals => {:item => board, :depth => nil} %>
+<% end %>
+
+<%= link_to 'New Board', new_chamber_board_path(@chamber), :class => 'btn btn-primary' if can(:execute) %>

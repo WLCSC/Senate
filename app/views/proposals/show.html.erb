@@ -1,0 +1,5 @@
+<%= render :partial => 'proposal', :locals => {:item => @proposal, :depth => nil, :comments => true} %>
+<div class="nested_comment">
+	<%= nested_comments @proposal.comments, false, 3 %>
+	<%= render :partial => 'comments/form', :locals => {:parent => @proposal} %>
+</div>

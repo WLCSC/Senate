@@ -17,5 +17,13 @@ class ApplicationController < ActionController::Base
   
   def check_for_admin
     redirect_to '/home/index' unless current_user && current_user.admin?
-  en
+  end
+
+  def find_chamber
+	unless @chamber
+		if params[:chamber_id]
+			@chamber = Chamber.find(params[:chamber_id])
+		end
+	end
+  end
 end

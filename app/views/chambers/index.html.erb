@@ -1,0 +1,6 @@
+<h1>Chambers</h1>
+<% @chambers.each do |chamber| %>
+	<%= render :partial => 'chamber', :locals => {:item => chamber} %>
+<% end %>
+
+<%= link_to "Create New Chamber", new_chamber_path, :class => 'btn btn-primary' if current_user.admin?%>

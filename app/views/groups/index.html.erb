@@ -1,27 +1,31 @@
-<h1>Listing groups</h1>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Auth attribute</th>
-    <th>Auth value</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @groups.each do |group| %>
-  <tr>
-    <td><%= group.name %></td>
-    <td><%= group.auth_attribute %></td>
-    <td><%= group.auth_value %></td>
-    <td><%= link_to 'Show', group %></td>
-    <td><%= link_to 'Edit', edit_group_path(group) %></td>
-    <td><%= link_to 'Destroy', group, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+<h1>Groups</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>You?</th>
+      <th>Name</th>
+      <th>LDAP Attribute</th>
+      <th>Value</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @groups.each do |group| %>
+      <tr>
+	<td><%= truthy_thumb(a(current_user.belongs_to? group)) %></td>
+        <td><%= link_to group.name, group %></td>
+        <td><%= group.auth_attribute %></td>
+	<td><%= group.auth_value %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_group_path(group), :class => 'btn btn-mini' %>
+          
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
-
-<%= link_to 'New Group', new_group_path %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_group_path,
+            :class => 'btn btn-primary' %>

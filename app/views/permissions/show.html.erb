@@ -1,25 +1,31 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = @permission.class -%>
+<h1><%=t '.title', :default => model_class.model_name.human %></h1>
 
-<p>
-  <b>Priority:</b>
-  <%= @permission.priority %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:priority) %>:</strong></dt>
+  <dd><%= @permission.priority %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:securable_id) %>:</strong></dt>
+  <dd><%= @permission.securable_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:securable_type) %>:</strong></dt>
+  <dd><%= @permission.securable_type %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:principal_id) %>:</strong></dt>
+  <dd><%= @permission.principal_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:read) %>:</strong></dt>
+  <dd><%= @permission.read %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:write) %>:</strong></dt>
+  <dd><%= @permission.write %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:execute) %>:</strong></dt>
+  <dd><%= @permission.execute %></dd>
+</dl>
 
-<p>
-  <b>Securable:</b>
-  <%= @permission.securable_id %>
-</p>
-
-<p>
-  <b>Securable type:</b>
-  <%= @permission.securable_type %>
-</p>
-
-<p>
-  <b>Principal:</b>
-  <%= @permission.principal_id %>
-</p>
-
-
-<%= link_to 'Edit', edit_permission_path(@permission) %> |
-<%= link_to 'Back', permissions_path %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              permissions_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_permission_path(@permission), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              permission_path(@permission),
+              :method => 'delete',
+              :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
+              :class => 'btn btn-danger' %>
+</div>

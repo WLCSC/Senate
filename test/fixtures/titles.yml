@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  title: MyString
+  chamber_id: 1
+  notes: MyText
+
+two:
+  title: MyString
+  chamber_id: 1
+  notes: MyText

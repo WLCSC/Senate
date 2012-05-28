@@ -1,20 +1,37 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = @group.class -%>
+<h1><%= @group.name %></h1>
 
-<p>
-  <b>Name:</b>
-  <%= @group.name %>
-</p>
+<% if current_user.admin? %>
+<% if @group.auth_attribute == '*' %>
+	<% @all_users = User.all.map{|u| u.name} %>
+	<p>This is an internal group.</p>
+	<%= form_tag change_group_path(@group) do %>
+		<%= hidden_field_tag :id, @group.id %>
+		<p><%= text_field_tag :name, '', :placeholder => "User", :"data-provide" => 'typeahead', :'data-items' => @all_users.count, :"data-source" => @all_users.to_s, :autocomplete => false %></p>
+		<%= submit_tag "Add/Remove User", :class => 'btn btn-primary' %>
+	<% end %>
+<% else %>
+	<h3>LDAP Credentials</h3>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:auth_attribute) %>:</strong></dt>
+  <dd><%= @group.auth_attribute %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:auth_value) %>:</strong></dt>
+  <dd><%= @group.auth_value %></dd>
+</dl>
+<% end %>
+<% end %>
+<h3>Group Members</h3>
+<table class="table table-condensed table-bordered table-striped" %>
+	<% @group.users.in_groups_of(6) do |group| %>
+		<tr>
+			<% group.each do |user| %>
+				<td><%= link_to user.name, user if user %></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
 
-<p>
-  <b>Auth attribute:</b>
-  <%= @group.auth_attribute %>
-</p>
-
-<p>
-  <b>Auth value:</b>
-  <%= @group.auth_value %>
-</p>
-
-
-<%= link_to 'Edit', edit_group_path(@group) %> |
-<%= link_to 'Back', groups_path %>
+<div class="form-actions">
+  <%= link_to "Edit", edit_group_path(@group), :class => 'btn' %>
+  <%= link_to "Destroy Group", group_path(@group), :method => 'delete', :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), :class => 'btn btn-danger' if @group.users.count == 0 %>
+</div>

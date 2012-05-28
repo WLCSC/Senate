@@ -1,0 +1,27 @@
+<table width="100%">
+	<tr>
+		<td width="50%" valign="top">
+			<h2>News</h2>
+			<% if @news.length > 0 %>
+				<% @news.each do |news| %>
+					<%= render :partial => 'news_items/news', :locals => {:item => news} %>
+				<% end %>
+			<% else %>
+				<p>No news items!</p>
+			<% end %>
+
+			<p><%= link_to("Submit New News", new_news_item_path, :class => 'btn btn-primary') if current_user.admin? %></p>
+			</td>
+			<td valign="top">
+
+			<h2>Your Chambers</h2>
+			
+				<% current_user.chambers.each do |chamber| %>
+					<%= render :partial => 'chambers/chamber', :locals => {:item => chamber} %>
+				<% end %>
+			
+
+		</td>
+	</tr>
+</table>
+

@@ -1,0 +1,117 @@
+<h1><%= @chamber.title %></h1>
+<p><i><%= @chamber.about %></i></p>
+
+<% content_for :announcements do %>
+	<% if @chamber.announcements.length > 0 %>
+		<% @chamber.announcements.last(5).each do |news| %>
+			<%= render :partial => 'announcements/announcement', :locals => {:item => news, :depth => nil} %>
+		<% end %>
+	<% else %>
+		<p>No announcements!</p>
+	<% end %>
+	<%= link_to "View All Announcements", chamber_announcements_path(@chamber), :class => 'btn btn-success' %>
+	<%= link_to("Post Announcement", new_chamber_announcement_path(@chamber), :class => 'btn btn-info') if can(:execute)%>
+<% end %>
+
+<%= content_for :proposals do %>
+	<% if @chamber.proposals.where(:closed => false).length > 0 %>
+		<% @chamber.proposals.where(:closed => false).last(5).each do |proposal| %>
+			<li><%= render :partial => 'proposals/proposal', :locals => {:item => proposal, :depth => nil} %></li>
+		<% end %>
+	<% else %>
+		<p>No open proposals.</p>
+	<% end %>
+
+	<%= link_to "View All Proposals", chamber_proposals_path(@chamber), :class => 'btn btn-success' %>
+	<%= link_to("New Proposal", new_chamber_proposal_path(@chamber), :class => 'btn btn-info') if can(:write)%>
+<% end %>
+
+<%= content_for :ballots do %>
+	<% if @chamber.ballots.where(:closed => false).length > 0 %>
+
+		<% @chamber.ballots.where(:closed => false).last(5).each do |ballot| %>
+			<li><%= render :partial => 'ballots/ballot', :locals => {:item => ballot, :depth => nil} %></li>
+		<% end %>
+
+	<% else %>
+		<p>No open ballots.</p>
+	<% end %>
+	<%= link_to "View All Ballots",chamber_ballots_path(@chamber), :class => 'btn btn-success' %>
+	<%= link_to("New Ballot", new_chamber_ballot_path(@chamber), :class => 'btn btn-info') if can(:execute)%>
+
+<% end %>
+
+<% content_for :discussion do %>
+	<% if @chamber.boards.length > 0 %>
+		<% i = 0 %>
+		<% @chamber.boards.each do |news| %>
+			<%= render :partial => 'boards/board', :locals => {:item => news, :depth => nil} if can(:read, news) %></li>
+			<% i+= 1 if can :read, news %>
+		<% end %>
+		<% if i == 0 %>
+			<p>No discussion boards.</p>
+		<% end %>
+	<% else %>
+		<p>No discussion boards.</p>
+	<% end %>
+
+	<%= link_to "View All Discussion Boards",chamber_boards_path(@chamber), :class => 'btn btn-success' %>
+	<%= link_to("New Board", new_chamber_board_path(@chamber), :class => 'btn btn-info') if can(:execute)%>
+<% end %>
+
+<%= content_for :events do %>
+	<% if @chamber.events.length > 0 %>
+		
+			<% @chamber.events.last(5).each do |event| %>
+				<%= render :partial => 'events/event', :locals => {:item => event} %>
+			<% end %>
+		
+	<% else %>
+		<p>No events yet.</p>
+	<% end %>
+	<%= link_to "View All Events",chamber_events_path(@chamber), :class => 'btn btn-success' %>
+	<%= link_to("New Event", new_chamber_event_path(@chamber), :class => 'btn btn-info') if can(:execute)%> 
+<% end %>
+
+<% if can(:execute) %>
+	<%= content_for :manage do %>
+		<h3>Users & Groups with access to this chamber</h3>
+		<table class="table table-striped table-bordered table-condensed">
+			<% @chamber.principals.in_groups_of(6) do |group| %>
+				<tr>
+					<% group.each do |pr| %>
+						<td><%= link_to pr.authorizable.name, pr.authorizable if pr %></td>
+					<% end %>
+				</tr>
+			<% end %>
+		</table>
+		<%= link_to "Manage Chamber Permissions", chamber_permissions_path(@chamber), :class => 'btn btn-large btn-warning' %>
+		<h3>User Titles for this chamber</h3>
+		<table class="table table-striped">
+	<tr>
+		<th>Text</th>
+		<th>Users</th>
+	</tr>
+	<% for title in @chamber.titles %>
+		<tr>
+			<td><%= link_to title.title, [@chamber, title] %></td>
+			<td><%= title.users.map{|u| link_to u.name, u}.join(', ').html_safe %></td>
+		</tr>
+	<% end %>
+</table>
+<%= link_to "Manage Chamber Titles", chamber_titles_path(@chamber), :class => 'btn btn-large btn-inverse' %>
+<p>
+<%= link_to "Edit Chamber Title/Description", edit_chamber_path(@chamber), :class => 'btn btn-large btn-info' %>
+</p>
+<% if current_user.admin? %>
+<p>
+<%= link_to (i('warning-sign') + "Permanently Destroy Chamber").html_safe, chamber_path(@chamber), :methd => 'delete', :class => 'btn btn-large btn-danger', :confirm => "Are you REALLY sure you want to PERMANENTLY DESTROY this chamber & everything in it?" %>
+</p>
+<% end %>
+<% end %>	
+<% end %>
+
+
+<%= tabify announcements: "Announcements", discussion: "Discussion Boards", proposals: "Proposals", ballots: "Ballots", events: "Events", manage: "Chamber Management" %>
+
+

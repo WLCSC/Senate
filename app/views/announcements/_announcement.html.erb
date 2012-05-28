@@ -1,0 +1,11 @@
+<div class="proposal">
+    <p><%= item.created_at.to_s %><br/>
+	From <%= link_to (@chamber ? item.user.titleize(@chamber): item.user.name), item.user %>, <p>
+	
+	<%= markdown item.content %>
+	<div class="announce_foot">
+		<%= link_to "Comments", [@chamber,item], :class => 'btn btn-mini btn-info' %>
+		<%= link_to "Reply", chamber_announcement_path(@chamber, item), :class => 'btn btn-mini btn-inverse' if can(:write) %>
+		<%= link_to "Delete", [@chamber, item], :method => :delete, :class => 'btn btn-danger btn-mini', :confirm => "Really delete announcement?" if can(:execute) %>
+	</div>
+</div>

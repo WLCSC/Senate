@@ -1,0 +1,55 @@
+<%- model_class = @user.class -%>
+<h1><%= @user.name %></h1>
+
+<dl class="dl-horizontal">
+  <dt><strong>Name:</strong></dt>
+  <dd><%= @user.name %></dd>
+  <dt><strong>Username:</strong></dt>
+  <dd><%= @user.username %></dd>
+  <dt><strong>Email:</strong></dt>
+  <dd><%= @user.email %></dd>
+  <dt><strong>Administrator:</strong></dt>
+  <dd><%= truthy_thumb @user.administrator %></dd>
+</dl>
+
+<h2>Groups</h2>
+<p><%= @user.name %> belongs to these security groups: </p>
+<table class="table table-condensed table-bordered table-striped" %>
+	<% @user.groups.in_groups_of(6) do |group| %>
+		<tr>
+			<% group.each do |user| %>
+				<td><%= link_to user.name, user if user %></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
+
+<h2>Chambers</h2>
+<p><%= @user.name %> can participate in these chambers: </p>
+<table class="table table-condensed table-bordered table-striped" %>
+	<% @user.chambers.in_groups_of(6) do |group| %>
+		<tr>
+			<% group.each do |user| %>
+				<td>
+					<% if (user && can(:read, user, current_user)) %>
+						<%= link_to(user.title, user)  %>
+					<% else %>
+						<%= user.title if user %>
+					<% end %>
+					</td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
+
+<h2>Titles</h2>
+<p><%= @user.name %> holds the following titles:</p>
+<table class="table table-condensed table-bordered table-striped" %>
+	<% @user.titles.each do |title| %>
+		<td><%= title.title %></td>
+		<td><%= can(:read, title.chamber) ? link_to(title.chamber.title, title.chamber) : title.chamber.title %></td>
+	<% end %>
+</table>
+
+  <%= link_to 'Edit', edit_user_path(@user), :class => 'btn btn-info' if (current_user.admin? || @user == current_user) %>
+

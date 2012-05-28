@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  title: MyString
+  content: MyText
+  options: MyText
+  closed: false
+  user_id: 1
+  chamber_id: 1
+  anonymous: false
+
+two:
+  title: MyString
+  content: MyText
+  options: MyText
+  closed: false
+  user_id: 1
+  chamber_id: 1
+  anonymous: false

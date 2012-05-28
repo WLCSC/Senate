@@ -1,0 +1,26 @@
+<div class="proposal">
+	<h3>Event #<%= item.id %> - <%= item.title %></h3>
+	<h4><%= item.time.to_s %> - <%= time_delta item.time %></h4>
+	<%= markdown item.notes %>
+
+	<p>
+	<% if item.users.count > 0 %>
+		<%= item.users.all.map{|u| link_to(u.name, u)}.join(', ').html_safe %> will be there!
+	<% else %>
+		Nobody's attending this event yet.
+	<% end %>
+	</p>
+
+	<% if item.users.include? current_user %>
+		<%= link_to "Never mind, I'm not coming", unattend_chamber_event_path(@chamber, item), :class => 'btn btn-warning' %>
+	<% else %>
+		<%= link_to "I'm coming", attend_chamber_event_path(@chamber, item), :class => 'btn btn-success' %>
+	<% end %>
+	<% if can(:execute, @chamber ) %> 
+		<div class="announce_foot">
+
+			<%= link_to "Delete", [@chamber, item], :method => :delete, :class => 'btn btn-danger btn-mini' %> 
+
+		</div>
+	<% end %>
+</div>

@@ -1,33 +1,25 @@
-<%= form_for(@permission) do |f| %>
-  <% if @permission.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@permission.errors.count, "error") %> prohibited this permission from being saved:</h2>
-
-      <ul>
-      <% @permission.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :priority %><br />
-    <%= f.text_field :priority %>
-  </div>
-  <div class="field">
-    <%= f.label :securable_id %><br />
-    <%= f.number_field :securable_id %>
-  </div>
-  <div class="field">
-    <%= f.label :securable_type %><br />
-    <%= f.text_field :securable_type %>
-  </div>
-  <div class="field">
-    <%= f.label :principal_id %><br />
-    <%= f.number_field :principal_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<% @principals = Principal.all %>
+<% @all_users = User.all.map{|u| u.name} %>
+<% @all_groups = Group.all.map{|u| u.name} %>
+<% @permission ||= Permission.new %>
+<%= form_for (@securable.is_a?(Chamber) ? [@securable, @permission] : [@securable.chamber, @securable, @permission]), :html => {:class => 'form-horizontal'} do |f| %>
+	<%= f.hidden_field :securable_type, :value => @securable.class.to_s %>
+	<%= f.hidden_field :securable_id, :value => @securable.id %>
+	<table class="table">
+		<tr>
+			<td>
+				<p>Priority:<%= f.text_field :priority, :size => 3, :maxlength => 1 %><br/>
+				Numbers come before capital letters come before small letters!</p>
+				<p>Read? <%= f.check_box :read %></p><p>Write? <%= f.check_box :write %></p><p>Admin? <%= f.check_box :execute %></p></td><td>
+				<% if @permission.principal %>
+					Applies to <%= @permission.principal.name %>
+				<% else %>
+					Applies to:
+				<% end %>
+				<p><%= f.text_field :user_name, :placeholder => "User", :"data-provide" => 'typeahead', :'data-items' => @all_users.count, :"data-source" => @all_users.to_s, :autocomplete => false %><br/>OR<br/><%= f.text_field :group_name, :placeholder => "Group", :"data-provide" => 'typeahead', :'data-items' => @all_groups.count, :"data-source" => @all_groups.to_s, :autocomplete => false %></p>
+				
+			</td>
+		</tr>
+	</table>
+	<%= f.submit :class => "btn btn-primary"  %>
 <% end %>

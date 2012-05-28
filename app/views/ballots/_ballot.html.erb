@@ -1,0 +1,56 @@
+<% 
+	totals = {}
+	item.ballot_remarks.each do |remark|
+		totals[remark.remark] ? totals[remark.remark] += 1 : totals[remark.remark] = 1
+	end
+	totals = totals.sort{|a,b| b[1] <=> a[1]}
+	named_totals = {}
+	totals.each do |i|
+		named_totals[item.options[i[0]]] = i[1]
+	end
+
+%>
+
+<div class="proposal">
+	<h3>Ballot #<%= item.id %> - <%= item.title %></h3>
+	<h4>Proposed by <%= link_to (@chamber ? item.user.titleize(@chamber): item.user.name), item.user %> <%= time_delta item.created_at %></h4>
+	<h4><%= link_to (named_totals.map{|e| "#{e[0]}: #{e[1]}"}.join(', ') + " - See Details").html_safe, inspect_chamber_ballot_path(@chamber, item) %></h4>
+	<%= markdown item.content %>
+
+
+	<% if item.closed %>
+		<p>This ballot is closed.</p>
+	<% else %>
+
+		<% if item.voted? current_user %>
+			<p>You voted alredy! <%= link_to "Cancel your vote", cancel_chamber_ballot_path(@chamber, item), :class => 'btn btn-mini btn-warning'  %></p>
+		<% else %> 
+			<% if can(:write, item) %>	
+				<%= form_tag vote_chamber_ballot_path(@chamber, item), :class => "form-horizontal" %> 
+				<%= hidden_field_tag :proposal_id, item.id %> 
+				<%= hidden_field_tag :user_id, current_user.id %>
+
+				<p>What do you think: 	
+				<% item.options.each do |o| %>
+					<div class="control-group">
+						<div class="control-label"><%= label_tag :remark, (o[1].to_s) %></div>
+						<div class="controls"><%= radio_button_tag :remark, o[0] %></div>
+					</div>
+				<% end %>
+				<%= submit_tag "Vote!", :class => "btn btn-success" %>
+				</p>
+			<% end %>
+		<% end %>
+		<% if can(:execute, item) %>
+			<div class="announce_foot">
+
+				<%= link_to "Close", close_chamber_proposal_path(@chamber, item), :class => 'btn btn-warning btn-mini' %>  
+				<%= link_to "Delete", [@chamber, item], :method => :delete, :class => 'btn btn-danger btn-mini' %> 
+				<%= link_to "Permissions", chamber_proposal_permissions_path(@chamber, item), :class => 'btn btn-mini btn-info' %>
+
+			</div>
+		<% end %>
+	<% end %>
+
+</div>
+
