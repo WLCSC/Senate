@@ -4,7 +4,7 @@ development:
   #your email domain name
   ldap_domain_email: test.com
   ldap_domain_controller: dc.test.com
-  #this doesn't have to be an OU - just a group works.
+  #this doesn't actually have to be an OU - just a group works.  anyone in this group automatically gets promoted to an admin
   ldap_domain_administrator_ou: CN=Admins,OU=Groups,DC=test,DC=com
   #we do search for users - where should we look?
   ldap_user_search_base: dc=test,dc=com
@@ -12,6 +12,12 @@ development:
   email_support_from: support@nowhere
   #who gets exception notifications?
   email_support_recipients: support@nowhere
+  #your mail server address
+  email_server: mail.nowhere
+  #SMTP port for your server
+  email_server_port: 25
+  #TLS?
+  email_tls_auto: true
   
 test:
   domain: test.host
