@@ -7,7 +7,7 @@
 	<p>This is an internal group.</p>
 	<%= form_tag change_group_path(@group) do %>
 		<%= hidden_field_tag :id, @group.id %>
-		<p><%= text_field_tag :name, '', :placeholder => "User", :"data-provide" => 'typeahead', :'data-items' => @all_users.count, :"data-source" => @all_users.to_s, :autocomplete => false %></p>
+		<p><%= text_field_tag :name, '', :placeholder => "User", :"data-provide" => 'typeahead', :'data-items' => @all_users.count, :"data-source" => @all_users.to_s, :autocomplete => 'off' %></p>
 		<%= submit_tag "Add/Remove User", :class => 'btn btn-primary' %>
 	<% end %>
 <% else %>

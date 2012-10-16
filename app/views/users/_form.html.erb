@@ -2,25 +2,41 @@
   <div class="control-group">
     <%= f.label :username, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :username, :class => 'text_field' %>
+	    <% if @user.username %>
+		    <p><%= @user.username %></p>
+	    <% else %>
+		    <%= f.text_field :username, :class => 'text_field' %>
+	    <% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :administrator, :class => 'control-label' %>
     <div class="controls">
-      <%= f.check_box :administrator, :class => 'check_box' %>
+	    <% if current_user.admin? %>
+		    <%= f.check_box :administrator, :class => 'check_box' %>
+	    <% else %>
+		    <p><%= truthy_thumb @user.administrator %></p>
+	    <% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :name, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :name, :class => 'text_field' %>
+	    <% if current_user.admin? || current_user == @user %>
+	      <%= f.text_field :name, :class => 'text_field' %>
+      <% else %>
+	      <p><%= @user.name %></p>
+      <% end %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :email, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :email, :class => 'text_field' %>
+	    <% if current_user.admin? || current_user == @user %>
+		    <%= f.text_field :email, :class => 'text_field' %>
+	    <% else %>
+		    <p><%= @user.email %></p>
+	    <% end %>
     </div>
   </div>
 

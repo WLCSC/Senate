@@ -88,9 +88,9 @@ class ProposalsController < ApplicationController
 
   def vote
 	@proposal = Proposal.find(params[:id])
-	ProposalRemark.create!(:proposal_id => @proposal.id, :user_id => current_user.id, :remark => (params[:commit] == "Yes!"))
+	ProposalRemark.create!(:proposal_id => @proposal.id, :user_id => current_user.id, :remark => params[:remark])
 	redirect_to [@chamber, @proposal], :info => 'Your vote has been submitted.'
-  end
+	end
 
   def close
 	@proposal = Proposal.find(params[:id])

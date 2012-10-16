@@ -1,9 +1,9 @@
 <div class="proposal">
-	<p><%= item.created_at.to_s %><br/>
+	<p>Posted <%= item.created_at.strftime("%m/%d/%y %I:%M") %><br/>
 	<% if item.is_a? Announcement %>
-		Posted in <%= link_to item.chamber.title, item.chamber %><br/>
+		in <%= link_to item.chamber.title, item.chamber %><br/>
 	<% end %>
-	From <%= link_to ((item.is_a?(Announcement) && item.chamber) ? item.user.titleize(item.chamber): item.user.name), item.user %>, <p>
+	by <%= link_to ((item.is_a?(Announcement) && item.chamber) ? item.user.titleize(item.chamber): item.user.name), item.user %>, <p>
 
 	<%= markdown item.content %>
 	<% if current_user.admin? %>

@@ -16,7 +16,7 @@
 				<% else %>
 					Applies to:
 				<% end %>
-				<p><%= f.text_field :user_name, :placeholder => "User", :"data-provide" => 'typeahead', :'data-items' => @all_users.count, :"data-source" => @all_users.to_s, :autocomplete => false %><br/>OR<br/><%= f.text_field :group_name, :placeholder => "Group", :"data-provide" => 'typeahead', :'data-items' => @all_groups.count, :"data-source" => @all_groups.to_s, :autocomplete => false %></p>
+				<p><%= f.text_field :user_name, :placeholder => "User", :"data-provide" => 'typeahead', :'data-items' => @all_users.count, :"data-source" => @all_users.to_s, :autocomplete => "off" %><br/>OR<br/><%= f.text_field :group_name, :placeholder => "Group", :"data-provide" => 'typeahead', :'data-items' => @all_groups.count, :"data-source" => @all_groups.to_s, :autocomplete => false %></p>
 				
 			</td>
 		</tr>

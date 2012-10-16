@@ -1,6 +1,6 @@
 <div class="comment">
-    <p><%= item.created_at %><br/>
-	From <%= item.user ? link_to(item.user.titleize(@chamber),item.user) : "UNDEFINED" %>, </p>
+    <p>Posted <%= item.created_at.strftime("%m/%d/%y %I:%M") %><br/>
+	by <%= item.user ? link_to(item.user.titleize(@chamber),item.user) : "UNDEFINED" %>, </p>
 	<%= item.content %>
 	<div class="announce_foot">
 		<%= link_to "Back", [@chamber, item.commentable], :class => 'btn btn-mini btn-warning' if parent %>

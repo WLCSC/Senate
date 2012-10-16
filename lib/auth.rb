@@ -12,7 +12,7 @@ def ldap_login user,pass
 		l
 	else
 		#r.info("Denied user #{user}")
-		raise "Denied!"
+		#raise "Denied!"
 		false
 	end
 end

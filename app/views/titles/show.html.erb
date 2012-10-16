@@ -18,7 +18,7 @@
 	<h4>Add/Remove User</h4>
 <% @all_users = User.all.map{|u| u.name} %>
 	<%= form_tag change_chamber_title_path(@chamber, @title) do %>
-		<%= text_field_tag :name, '', :placeholder => "User", :"data-provide" => 'typeahead', :'data-items' => @all_users.count, :"data-source" => @all_users.to_s, :autocomplete => false %><br/>
+		<%= text_field_tag :name, '', :placeholder => "User", :"data-provide" => 'typeahead', :'data-items' => @all_users.count, :"data-source" => @all_users.to_s, :autocomplete => "off" %><br/>
 		<%= submit_tag "OK", :class => 'btn btn-primary' %>
 	<% end %>
 

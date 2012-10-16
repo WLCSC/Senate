@@ -44,7 +44,7 @@ class NewsItemsController < ApplicationController
 
     respond_to do |format|
       if @news_item.save
-        format.html { redirect_to @news_item, notice: 'News item was successfully created.' }
+        format.html { redirect_to root_path, notice: 'News item was successfully created.' }
         format.json { render json: @news_item, status: :created, location: @news_item }
       else
         format.html { render action: "new" }

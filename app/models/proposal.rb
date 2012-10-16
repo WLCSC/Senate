@@ -66,8 +66,8 @@ class Proposal < ActiveRecord::Base
 		Permission.where(:securable_type => "Proposal").where(:securable_id => self.id)
 	end
 
-	def ratio
-		positive.to_f / negative.to_f
+	def score
+		ProposalRemark.where(:proposal_id => self.id).all.inject{|sum,x| sum += x.remark}
 	end
 
 	def positive
@@ -75,9 +75,29 @@ class Proposal < ActiveRecord::Base
 	end
 
 	def negative
+		ProposalRemark.where(:proposal_id => self.id, :remark => -1).count
+	end
+
+	def super_positive
+		ProposalRemark.where(:proposal_id => self.id, :remark => 2).count
+	end
+
+	def super_negative
+		ProposalRemark.where(:proposal_id => self.id, :remark => -2).count
+	end
+
+	def neutral
 		ProposalRemark.where(:proposal_id => self.id, :remark => 0).count
 	end
 
+	def upvotes
+		positive + super_positive
+	end
+
+	def downvotes
+		negative + super_negative
+	end
+	
 	def voted? user
 		if self.proposal_remarks.where(:user_id => user.id)
 			self.proposal_remarks.where(:user_id => user.id).first

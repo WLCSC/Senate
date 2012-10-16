@@ -2,18 +2,20 @@
 	require 'google_chart'
 
 	GoogleChart::PieChart.new('800x320', "Ballot Votes", false) do |c|
-		c.data "Yes - #{@proposal.positive}", @proposal.positive
-		c.data "No - #{@proposal.negative}", @proposal.negative
+		c.data "Really Like - #{@proposal.super_positive}", @proposal.super_positive
+		c.data "Like - #{@proposal.positive}", @proposal.positive
+		c.data "Neutral - #{@proposal.neutral}", @proposal.neutral
+		c.data "Dislike - #{@proposal.negative}", @proposal.negative
+		c.data "Really Dislike - #{@proposal.super_negative}", @proposal.super_negative
 		@chart = c.to_url
 	end
 %>
 
 <div style="display: block; margin-left: auto;"><%= image_tag @chart, :size => '800x320' %></div>
 
-
-<h3>Yes - <%= @proposal.positive %></h3>
+<h3>Really Like - <%= @proposal.super_positive %></h3>
 <table class="table table-condensed table-bordered table-striped" %>
-	<% @proposal.proposal_remarks.where(:remark => true).in_groups_of(6) do |group| %>
+	<% @proposal.proposal_remarks.where(:remark => 2).in_groups_of(6) do |group| %>
 		<tr>
 			<% group.each do |r| %>
 				<td><%= link_to r.user.name, r.user if r %></td>
@@ -22,9 +24,19 @@
 	<% end %>
 </table>
 
-<h3>No - <%= @proposal.negative %></h3>
+<h3>Like - <%= @proposal.positive %></h3>
 <table class="table table-condensed table-bordered table-striped" %>
-	<% @proposal.proposal_remarks.where(:remark => false).in_groups_of(6) do |group| %>
+	<% @proposal.proposal_remarks.where(:remark => 1).in_groups_of(6) do |group| %>
+		<tr>
+			<% group.each do |r| %>
+				<td><%= link_to r.user.name, r.user if r %></td>
+			<% end %>
+		</tr>
+	<% end %>
+	</table>
+<h3>Neutral - <%= @proposal.neutral %></h3>
+<table class="table table-condensed table-bordered table-striped" %>
+	<% @proposal.proposal_remarks.where(:remark => 0).in_groups_of(6) do |group| %>
 		<tr>
 			<% group.each do |r| %>
 				<td><%= link_to r.user.name, r.user if r %></td>
@@ -32,3 +44,26 @@
 		</tr>
 	<% end %>
 </table>
+
+<h3>Don't Like - <%= @proposal.negative %></h3>
+<table class="table table-condensed table-bordered table-striped" %>
+	<% @proposal.proposal_remarks.where(:remark => -1).in_groups_of(6) do |group| %>
+		<tr>
+			<% group.each do |r| %>
+				<td><%= link_to r.user.name, r.user if r %></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
+
+<h3>Really Don't Like - <%= @proposal.super_negative %></h3>
+<table class="table table-condensed table-bordered table-striped" %>
+	<% @proposal.proposal_remarks.where(:remark => -2).in_groups_of(6) do |group| %>
+		<tr>
+			<% group.each do |r| %>
+				<td><%= link_to r.user.name, r.user if r %></td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>
+
