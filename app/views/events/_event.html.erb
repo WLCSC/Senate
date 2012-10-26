@@ -1,6 +1,6 @@
 <div class="proposal">
 	<h3>Event #<%= item.id %> - <%= item.title %></h3>
-	<h4><%= item.time.to_s %> - <%= time_delta item.time %></h4>
+	<h4><%= nice_datetime item.time %> - <%= time_delta item.time %></h4>
 	<%= markdown item.notes %>
 
 	<p>

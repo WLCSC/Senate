@@ -1,7 +1,5 @@
-<table width="100%">
-	<tr>
-		<td width="50%" valign="top">
-			<h2>News</h2>
+<% content_for :left do %>
+<h2>News</h2>
 			<% if @news.length > 0 %>
 				<% @news.each do |news| %>
 					<%= render :partial => 'news_items/news', :locals => {:item => news} %>
@@ -10,18 +8,28 @@
 				<p>No news items!</p>
 			<% end %>
 
-			<p><%= link_to("Submit New News", new_news_item_path, :class => 'btn btn-primary') if current_user.admin? %></p>
-			</td>
-			<td valign="top">
+			<p><%= link_to("Submit New News", new_news_item_path, :class => 'btn btn-primary') if current_user && current_user.admin? %></p>
+		<% end %>
+		<% if current_user %>
+				<h2>Your Chambers</h2>
 
-			<h2>Your Chambers</h2>
-			
 				<% current_user.chambers.each do |chamber| %>
 					<%= render :partial => 'chambers/chamber', :locals => {:item => chamber} %>
 				<% end %>
-			
 
-		</td>
-	</tr>
-</table>
+			<% else %>
+				<h1>Log in</h1>  
 
+				<%= form_tag '/sessions/create' do %>  
+					<p>  
+					<%= label_tag :username %><br />  
+					<%= text_field_tag :username, params[:username] %>  
+					</p>  
+					<p>  
+					<%= label_tag :password %><br />  
+					<%= password_field_tag :password %>  
+					</p>  
+					<p class="button"><%= submit_tag "Log In", :class => 'btn btn-primary btn-large'%></p>  
+				<% end %>  
+
+			<% end %>

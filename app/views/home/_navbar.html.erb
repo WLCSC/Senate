@@ -10,22 +10,9 @@
 			<div class="container nav-collapse">
 				<ul class="nav">
 					<% if current_user %>
-						<li><%= link_to current_user.name, current_user %></li>
 						<li><%= link_to i('user') + "Log Out", '/sessions/destroy' %></li>
+						<li><%= link_to i('edit') + current_user.name, current_user %></li>
 						<li class="divider-vertical"></li>
-						<% if @chamber && @chamber.id %>
-							<li><%= link_to i('briefcase') + @chamber.title, @chamber %></li>
-							<li><%= link_to i('inbox') + 'Proposals', chamber_proposals_path(@chamber) %></li>
-							<li><%= link_to i('file') + 'Ballots', chamber_ballots_path(@chamber) %></li>
-							<li><%= link_to i('comment') + 'Discussion Boards', chamber_boards_path(@chamber) %></li>
-							<li><%= link_to i('globe') + 'Events', chamber_events_path(@chamber) %></li>
-							<% if can(:execute, @chamber) %>
-								<li><%= link_to i('lock') + "Permissions", chamber_permissions_path(@chamber) %></li>
-								<li><%= link_to i('bullhorn') + "Titles", chamber_titles_path(@chamber) %></li>
-							<% end %>
-							<li class="divider-vertical"></li>
-						<% end %>
-
 						<li><%= link_to i('briefcase') + "Chambers", chambers_path %></li>
 						<% if current_user.admin? %>
 							<li><%= link_to i('user') + "Users", users_path %></li>

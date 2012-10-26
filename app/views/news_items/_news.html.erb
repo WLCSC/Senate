@@ -6,7 +6,7 @@
 	by <%= link_to ((item.is_a?(Announcement) && item.chamber) ? item.user.titleize(item.chamber): item.user.name), item.user %>, <p>
 
 	<%= markdown item.content %>
-	<% if current_user.admin? %>
+	<% if current_user && current_user.admin? %>
 		<% path = (item.is_a?(NewsItem) ? item : [item.chamber, item]) %>
 		<div class="announce_foot">
 			<%= link_to "Delete", path, :method => :delete, :class => 'btn btn-danger btn-mini', :confirm => "Really delete announcement?" %>

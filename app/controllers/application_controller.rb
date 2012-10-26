@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
   
   def check_for_user
-    redirect_to '/sessions/new' unless current_user
+    redirect_to '/sessions/new?return='+request.original_url unless current_user
   end
   
   def check_for_admin

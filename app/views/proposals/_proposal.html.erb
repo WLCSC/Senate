@@ -1,7 +1,7 @@
 <div class="proposal">
 	<h3>Proposal #<%= item.id %> - <%= item.title %></h3>
 	<h4>Proposed by <%= link_to (@chamber ? item.user.titleize(@chamber): item.user.name), item.user %> <%= time_delta item.created_at %></h4>
-	<h4><%= link_to inspect_chamber_proposal_path(@chamber, item) do %><%= i 'thumbs-up' %><%= item.upvotes %> - <%= i 'thumbs-down' %><%= item.downvotes %> - See Details<% end %></h4>
+	<h4>Proposal Score: <%= item.score || 0 %> - <%= link_to "See Details", inspect_chamber_proposal_path(@chamber, item) %></h4>
 	<%= markdown item.content %>
 
 
@@ -20,11 +20,11 @@
 					What do you think: 	
 					<table width="20%">
 						<tr>
-							<td><a href="#" rel="tooltip" title="Really like" onClick="$('#remark_-2').click();"><%= i "thumbs-down" %><%= i "thumbs-down" %></a></td>
-							<td><a href="#" rel="tooltip" title="Like" onClick="$('#remark_-1').click();"><%= i "thumbs-down" %></a></td>
+							<td><a href="#" rel="tooltip" title="Really don't like" onClick="$('#remark_-2').click();"><%= i "thumbs-down" %><%= i "thumbs-down" %></a></td>
+							<td><a href="#" rel="tooltip" title="Don't like" onClick="$('#remark_-1').click();"><%= i "thumbs-down" %></a></td>
 							<td><a href="#" rel="tooltip" title="Neutral" onClick="$('#remark_0').click();"><%= i "asterisk" %></a></td>
-							<td><a href="#" rel="tooltip" title="Don't like" onClick="$('#remark_1').click();"><%= i "thumbs-up" %></a></td>
-							<td><a href="#" rel="tooltip" title="Really don't like" onClick="$('#remark_2').click();"><%= i "thumbs-up" %><%= i "thumbs-up" %></a></td>
+							<td><a href="#" rel="tooltip" title="Like" onClick="$('#remark_1').click();"><%= i "thumbs-up" %></a></td>
+							<td><a href="#" rel="tooltip" title="Really like" onClick="$('#remark_2').click();"><%= i "thumbs-up" %><%= i "thumbs-up" %></a></td>
 						</tr>
 						<tr>
 							<td><%= radio_button_tag :remark, -2 %></td>
@@ -33,7 +33,7 @@
 							<td><%= radio_button_tag :remark, 1 %></td>
 							<td><%= radio_button_tag :remark, 2 %></td>
 						</tr>
-						<table>
+						</table>
 
 							<%= submit_tag "Submit", :class => 'btn btn-success btn-mini' %>
 

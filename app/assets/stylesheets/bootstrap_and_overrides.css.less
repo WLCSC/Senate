@@ -1,5 +1,5 @@
 @import "twitter/bootstrap/bootstrap";
-body { padding-top: 60px; }
+body { padding-top: 60px; padding-bottom: 60px; }
 
 @import "twitter/bootstrap/responsive";
 
@@ -65,7 +65,38 @@ textarea {
 	margin-bottom: 15px;	
 }
 
+@media (min-width: 980px) {
+    .pull-center {
+        text-align: center;
+    }
+    .pull-center > .nav {
+        float:none;
+        display:inline-block;
+        *display: inline; *zoom: 1;
+        height: 32px;
+    }
+}
+
 
 .proposal h4 {
 	padding-left: 20px;
 }
+
+.navbar-fixed-bottom div.navbar-inner {
+	background-color: #aaa !important;
+}
+.footbar {
+	background-color: #111;
+	color: #fff !important;
+	width: 100%;
+
+}
+
+div.footbar ul.nav li a {
+	color: white;
+}
+
+.footbar ul {
+	margin: auto !important;
+}
+

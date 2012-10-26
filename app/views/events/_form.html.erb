@@ -9,11 +9,16 @@
     </p>
   <p>
     <%= f.label :time %><br />
-    <%= f.text_field :timestring, :placeholder => 'MM/DD/YYYY HH:MM' %>
+		<%= f.text_field :timestring, :placeholder => 'MM/DD/YYYY HH:MM', :id => 'etime' %>
   </p>
   
 	<%= f.hidden_field :chamber_id, :value => params[:chamber_id] %>
 	<p><%= f.submit :class => 'btn btn-primary' %></p>
 <% end %>
 
+<%= javascript_tag do %>
+	$(document).ready(function() {
+	$('#etime').datetimepicker();
+	});
+<% end %>
 

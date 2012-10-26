@@ -15,7 +15,7 @@
 
 <%= content_for :proposals do %>
 	<% if @chamber.proposals.where(:closed => false).length > 0 %>
-		<% @chamber.proposals.where(:closed => false).last(5).each do |proposal| %>
+		<% @chamber.proposals.where(:closed => false).sort{|a,b| a.score <=> b.score}.each do |proposal| %>
 			<li><%= render :partial => 'proposals/proposal', :locals => {:item => proposal, :depth => nil} %></li>
 		<% end %>
 	<% else %>

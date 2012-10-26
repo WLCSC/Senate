@@ -10,7 +10,7 @@ class Event < ActiveRecord::Base
 		if self.timestring != "" && self.timestring.is_a?(String)
 			self.timestring.match /(\d+)\/(\d+)\/(\d+) (\d+):(\d+)/
 			self.time = DateTime.civil($3.to_i, $1.to_i, $2.to_i, $4.to_i, $5.to_i)
-			self.time += 5.hours
+			self.time += 4.hours
 		elsif self.timestring != ""
 			
 		end

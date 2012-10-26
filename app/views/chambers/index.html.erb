@@ -1,6 +1,12 @@
-<h1>Chambers</h1>
-<% @chambers.each do |chamber| %>
-	<%= render :partial => 'chamber', :locals => {:item => chamber} %>
-<% end %>
-
+<% content_for :left do %>
+	<h2>All the Chambers</h2>
 <%= link_to "Create New Chamber", new_chamber_path, :class => 'btn btn-primary' if current_user.admin?%>
+	<% @left.each do |c| %>
+	<%= render(:partial => 'chamber', :locals => {:item => c} ) if c%>	
+	<% end %>
+<% end %>
+<% @right.each do |c| %>
+
+	<%= render(:partial => 'chamber', :locals => {:item => c}) if c%>	
+	<% end %>
+

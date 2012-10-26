@@ -102,8 +102,8 @@ module ApplicationHelper
 		condition		 
 	end
 
-	def i(c)
-		('<i class="icon-' + c + '"></i>').html_safe
+	def i(c,w=false)
+		('<i class="icon-' + c + (w ? " icon-white " : '') + '"></i>').html_safe
 	end
 
 	def markdown(text)
@@ -118,4 +118,13 @@ module ApplicationHelper
 	end.join.html_safe if comments.is_a? Array
 	
   end
+
+	def nice_date d
+	d.strftime("%A, %B %d, %Y")
+  end
+
+  def nice_datetime d
+	d.strftime("%I:%M %p %m-%d-%Y")
+  end
+
 end

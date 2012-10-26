@@ -31,7 +31,7 @@
 		<tr>
 			<% group.each do |user| %>
 				<td>
-					<% if (user && can(:read, user, current_user)) %>
+					<% if (current_user && user && can(:read, user, current_user)) %>
 						<%= link_to(user.title, user)  %>
 					<% else %>
 						<%= user.title if user %>
@@ -51,5 +51,5 @@
 	<% end %>
 </table>
 
-  <%= link_to 'Edit', edit_user_path(@user), :class => 'btn btn-info' if (current_user.admin? || @user == current_user) %>
+  <%= link_to 'Edit', edit_user_path(@user), :class => 'btn btn-info' if (current_user && (current_user.admin? || @user == current_user)) %>
 

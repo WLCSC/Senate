@@ -67,7 +67,9 @@ class Proposal < ActiveRecord::Base
 	end
 
 	def score
-		ProposalRemark.where(:proposal_id => self.id).all.inject{|sum,x| sum += x.remark}
+		sum = 0
+		ProposalRemark.where(:proposal_id => self.id).all.each{|x| sum += x.remark}
+		sum
 	end
 
 	def positive

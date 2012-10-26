@@ -1,11 +1,20 @@
 class ChambersController < ApplicationController
+	before_filter :check_for_user
   # GET /chambers
   # GET /chambers.json
   def index
     @chambers = Chamber.all
+		@left, @right = [], []
+		l = true
+		@chambers.in_groups_of(2) do |group|
+			group.each do |x|
+				l ? @left << x : @right << x
+				l = !l
+			end
+		end
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { render :layout => 'columns'}# index.html.erb
       format.json { render json: @chambers }
     end
   end

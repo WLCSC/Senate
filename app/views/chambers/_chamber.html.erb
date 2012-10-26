@@ -1,14 +1,16 @@
 <div class="proposal">
 	<h3><%= (can(:read, item) == '*') ? i('star') : '' %><%= can(:read, item) ? link_to(item.title, item) : item.title%></h3>
+	<% if can(:read, item) %>
+	<table class="table table-condensed table-bordered" style="margin-bottom: 2px; background-color: #fff; padding: 0; width: auto;">
+		<tr>
+			<td><%= link_to chamber_proposals_path(item), :rel => 'tooltip', :title => 'Proposals' do %><%= i 'inbox' %> - <%= item.proposals.count %><% end %></td>
+			<td><%= link_to chamber_ballots_path(item), :rel => 'tooltip', :title => 'Ballots' do %><%= i 'file' %> - <%= item.ballots.count %><% end %></td>
+			<td><%= link_to chamber_boards_path(item), :rel => 'tooltip', :title => 'Discussion Boards' do %><%= i 'comment' %> - <%= item.boards.count %><% end %></td>
+			<td><%= link_to chamber_events_path(item), :rel => 'tooltip', :title => 'Events' do %><%= i 'globe' %> - <%= item.events.count %><% end %></td>
+		</tr>
+	</table>
+<% end %>
 	<h4><%= item.about %></h4>
 	<h5>Administrated by <%= item.admins.map {|u| link_to u.name, u}.join(', ').html_safe %></h5>
 
-	<table class="table table-condensed table-bordered" style="margin-bottom: 2px; background-color: rgba(1,1,1,0.2); text-align: center;">
-		<tr>
-			<td><%= link_to chamber_proposals_path(item) do %><%= i 'inbox' %> - <%= item.proposals.count %><% end %></td>
-			<td><%= link_to chamber_ballots_path(item) do %><%= i 'file' %> - <%= item.ballots.count %><% end %></td>
-			<td><%= link_to chamber_boards_path(item) do %><%= i 'comment' %> - <%= item.boards.count %><% end %></td>
-			<td><%= link_to chamber_events_path(item) do %><%= i 'globe' %> - <%= item.events.count %><% end %></td>
-		</tr>
-	</table>
-</div>	
+	</div>	
