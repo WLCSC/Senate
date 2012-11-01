@@ -2,6 +2,7 @@ require 'commentable.rb'
 
 class Board < ActiveRecord::Base
 	include CommentableModel
+	acts_as_taggable
 	belongs_to :chamber
 	has_many :comments, :as => :commentable, :dependent => :destroy
 	has_many :permissions, :as => :securable, :dependent => :destroy

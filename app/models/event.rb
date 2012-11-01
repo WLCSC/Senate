@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+	acts_as_taggable
 	belongs_to :chamber
 	has_many :attendees, :dependent => :destroy
 	has_many :users, :through => :attendees

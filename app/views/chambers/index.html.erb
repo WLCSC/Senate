@@ -1,12 +1,11 @@
-<% content_for :left do %>
-	<h2>All the Chambers</h2>
-<%= link_to "Create New Chamber", new_chamber_path, :class => 'btn btn-primary' if current_user.admin?%>
-	<% @left.each do |c| %>
-	<%= render(:partial => 'chamber', :locals => {:item => c} ) if c%>	
-	<% end %>
+<h1>All the Chambers</h1>
+<% @short = true %>
+<ul>
+<% Assembly.where(:parent_id => nil).each do |a| %>
+	<li><%= link_to a.name, a %></li>
+	<%= recurse_assemblies a, true %>
 <% end %>
-<% @right.each do |c| %>
-
-	<%= render(:partial => 'chamber', :locals => {:item => c}) if c%>	
-	<% end %>
-
+<% Chamber.where(:assembly_id => nil).each do |c| %>
+	<li><%= render :partial => 'chambers/short_chamber', :locals => {:item => c} %></li>
+<% end %>
+</ul>

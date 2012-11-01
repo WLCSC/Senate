@@ -1,6 +1,7 @@
 require 'commentable.rb'
 
 class Proposal < ActiveRecord::Base
+	acts_as_taggable
 	include CommentableModel
 	belongs_to :chamber
 	belongs_to :user

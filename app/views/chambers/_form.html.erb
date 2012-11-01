@@ -11,7 +11,12 @@
       <%= f.text_area :about, :class => 'text_area' %>
     </div>
   </div>
-
+	<div class="control-group">
+    <%= f.label :assembly, "Parent Assembly", :class => 'control-label' %>
+    <div class="controls">
+			<%= f.select :assembly_id, Assembly.all.sort{|a,b| a.path <=> b.path}.map{|x| [x.path, x.id]}, :class => 'text_area' %>
+    </div>
+  </div>
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
   </div>

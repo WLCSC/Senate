@@ -1,3 +1,21 @@
+<% if @chamber.assembly
+	@arr = []
+	x = @chamber.assembly
+	while x != nil
+		@arr << x
+		x = x.parent
+	end
+	@arr.reverse!
+end %>
+
+<% if @chamber.assembly %>
+	<p>
+	<%= link_to @arr[0].name, @arr.delete_at(0) %>
+		<% @arr.each do |a| %>
+			&gt; <%= link_to a.name, a %>
+		<% end %>
+	</p>
+<% end %>
 <h1><%= @chamber.title %></h1>
 <p><i><%= @chamber.about %></i></p>
 

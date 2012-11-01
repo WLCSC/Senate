@@ -14,7 +14,7 @@ class ChambersController < ApplicationController
 		end
 
     respond_to do |format|
-      format.html { render :layout => 'columns'}# index.html.erb
+      format.html { render }# index.html.erb
       format.json { render json: @chambers }
     end
   end

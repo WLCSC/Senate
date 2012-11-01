@@ -1,0 +1,14 @@
+<% greet ||= nil %>
+<div class="proposal">
+	<h3><%= greet || '' %><%= item.name %></h3>
+	<% if item.titles.count > 0 %>
+		<ul>
+		<% item.titles.each do |title|%>
+			<li><%= title.title %> - <%= can(:read, title.chamber) ? link_to(title.chamber.title, title.chamber) : title.chamber.title %></li>
+		<% end %>
+	</ul>
+<% end %>
+<% if current_user && current_user == item %>
+	<%= link_to "Edit yourself", edit_user_path(item), :class => 'btn btn-inverse'%>
+<% end %>
+</div>

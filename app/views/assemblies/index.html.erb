@@ -1,0 +1,13 @@
+<h1>Assemblies</h1>
+<ul>
+	<% @assemblies.each do |assembly| %>
+		<li><%= link_to assembly.name, assembly %></li>
+		<% if assembly.assemblies.count > 0 %>
+			<%= recurse_assemblies assembly %>
+		<% end %>
+	<% end %>
+</ul>
+
+<%= link_to "New Assembly",
+            new_assembly_path,
+            :class => 'btn btn-primary' %>

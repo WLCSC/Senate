@@ -127,4 +127,24 @@ module ApplicationHelper
 	d.strftime("%I:%M %p %m-%d-%Y")
   end
 
+	def recurse_assemblies assembly, chambers = false
+		buf = "<ul>\n"
+		assembly.assemblies.each do |a|
+			buf << "<li>" + link_to(a.name, a) + "</li>"
+			if a.assemblies.count > 0 || (a.chambers.count > 0 && chambers)
+				buf << recurse_assemblies(a, chambers ? true : false)
+			end
+		end
+		if assembly.chambers.count > 0 && chambers
+			assembly.chambers.each do |chamber|
+				if chambers == "long"
+					buf << render(:partial => 'chambers/chamber', :locals => {:item => chamber})
+				else
+					buf << render(:partial => 'chambers/short_chamber', :locals => {:item => chamber})
+				end
+			end
+		end
+		buf << "</ul>"
+		buf.html_safe
+	end
 end

@@ -1,4 +1,6 @@
 Senate2::Application.routes.draw do
+  resources :assemblies
+
 	get "comments/create"
 
 	get "home/index"

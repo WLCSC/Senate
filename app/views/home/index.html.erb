@@ -14,7 +14,7 @@
 				<h2>Your Chambers</h2>
 
 				<% current_user.chambers.each do |chamber| %>
-					<%= render :partial => 'chambers/chamber', :locals => {:item => chamber} %>
+					<%= render :partial => 'chambers/short_chamber', :locals => {:item => chamber} %>
 				<% end %>
 
 			<% else %>

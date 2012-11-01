@@ -13,10 +13,20 @@
 						<li><%= link_to i('user') + "Log Out", '/sessions/destroy' %></li>
 						<li><%= link_to i('edit') + current_user.name, current_user %></li>
 						<li class="divider-vertical"></li>
-						<li><%= link_to i('briefcase') + "Chambers", chambers_path %></li>
+						<% if @chamber && @chamber.title != nil %>
+							<li><%= link_to i('briefcase') + @chamber.title, @chamber %></li>
+							<li><%= link_to i('inbox') + 'Proposals', chamber_proposals_path(@chamber) %></li>
+							<li><%= link_to i('file') + 'Ballots', chamber_ballots_path(@chamber) %></li>
+							<li><%= link_to i('comment') + 'Discussion', chamber_boards_path(@chamber) %></li>
+							<li><%= link_to i('globe') + 'Events', chamber_events_path(@chamber) %></li>
+							<% if can(:execute, @chamber) %>
+								<li><%= link_to i('lock') + "Permissions", chamber_permissions_path(@chamber) %></li>
+								<li><%= link_to i('bullhorn') + "Titles", chamber_titles_path(@chamber) %></li>
+							<% end %>
+						<% else %>
+							<li><%= link_to i('briefcase') + "Chambers", chambers_path %></li>
+						<% end %>
 						<% if current_user.admin? %>
-							<li><%= link_to i('user') + "Users", users_path %></li>
-							<li><%= link_to i('list-alt') + "Groups", groups_path %></li>
 						<% end %>
 					<% else %>
 						<li><%= link_to "Log In", '/' %></li>

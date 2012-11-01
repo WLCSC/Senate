@@ -7,6 +7,16 @@ class Chamber < ActiveRecord::Base
 	has_many :events, :dependent => :destroy
 	has_many :permissions, :as => :securable, :dependent => :destroy
 	has_many :principals, :through => :permissions
+	belongs_to :assembly
+
+	def parent
+		self.assembly
+	end
+
+	def path
+		buf = parent.path
+		buf << " < " << title
+	end
 
 	def secures user
 		x = nil
