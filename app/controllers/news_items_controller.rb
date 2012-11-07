@@ -1,4 +1,5 @@
 class NewsItemsController < ApplicationController
+	before_filter :check_for_user
   # GET /news_items
   # GET /news_items.json
   def index

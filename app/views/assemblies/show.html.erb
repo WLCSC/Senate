@@ -13,24 +13,18 @@
 
 <% if @assembly.parent %>
 	<p>
-		<%= link_to @arr[0].name, @arr.delete_at(0) %>
 		<% @arr.each do |a| %>
-			&gt; <%= link_to a.name, a %>
+			 <%= link_to a.name, a %> &gt;
 		<% end %>
 	</p>
 <% end %>
 <h1><%= @assembly.name %></h1>
 
 <%= recurse_assemblies @assembly, "long" %>
-
-<div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              assemblies_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_assembly_path(@assembly), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              assembly_path(@assembly),
-              :method => 'delete',
-              :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
-              :class => 'btn btn-danger' %>
-</div>
+<% if current_user.admin? %>
+	<div class="form-actions">
+		<%= link_to "New Sub-Assembly", new_assembly_path(:parent_id => @assembly), :class => "btn btn-primary" %>
+  <%= link_to "Edit", edit_assembly_path(@assembly), :class => 'btn' %>
+  <%= link_to "Delete", assembly_path(@assembly), :method => 'delete', :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), :class => 'btn btn-danger' if @assembly.assemblies.count == 0 && @assembly.chambers.count == 0%>
+						</div>
+					<% end %>

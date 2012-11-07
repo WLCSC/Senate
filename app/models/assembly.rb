@@ -18,7 +18,7 @@ class Assembly < ActiveRecord::Base
 		anc = ancestors
 		buf << anc.delete_at(0).name
 		anc.each do |a|
-			buf << " < " + a.name 
+			buf << " > " + a.name 
 		end
 		buf
 	end

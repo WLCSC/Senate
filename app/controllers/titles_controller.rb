@@ -1,4 +1,5 @@
 class TitlesController < ApplicationController
+	before_filter :check_for_user
 	before_filter :find_chamber
   # GET /titles
   # GET /titles.json

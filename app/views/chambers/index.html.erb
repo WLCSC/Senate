@@ -1,6 +1,6 @@
 <h1>All the Chambers</h1>
 <% @short = true %>
-<ul>
+<ul >
 <% Assembly.where(:parent_id => nil).each do |a| %>
 	<li><%= link_to a.name, a %></li>
 	<%= recurse_assemblies a, true %>

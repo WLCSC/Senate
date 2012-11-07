@@ -1,4 +1,5 @@
 class CommentsController < ApplicationController
+	before_filter :check_for_user
 	def show
 		@comment = Comment.find(params[:id])
 		@chamber = @comment.commentable.chamber

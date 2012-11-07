@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+	before_filter :check_for_user
   # GET /users
   # GET /users.json
   def index

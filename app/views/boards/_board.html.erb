@@ -1,5 +1,5 @@
 <div class="proposal">
-	<h3><%= item.title %></h3>
+	<%= link_to [@chamber, item] do %><h3><%= item.title %></h3><% end %>
 	<%= markdown item.notes %>
 	<div class="announce_foot">
 		<%= link_to "Comments", [@chamber,item], :class => 'btn btn-mini btn-info' %>
@@ -8,5 +8,10 @@
 		<%= link_to "Delete", [@chamber, item], :method => :delete, :class => 'btn btn-danger btn-mini', :confirm => "Really delete announcement?" %>
 		<%= link_to "Permissions", chamber_board_permissions_path(@chamber, item), :class => 'btn btn-info btn-mini' %>
 	<% end %>
-	</div>
+</div>
+<% if @tags %>
+	<p>
+	Tagged with: <%= item.tag_list %>
+	</p>
+<% end %>
 </div>

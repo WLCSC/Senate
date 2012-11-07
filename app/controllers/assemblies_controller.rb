@@ -1,5 +1,6 @@
 class AssembliesController < ApplicationController
-  # GET /assemblies
+	before_filter :check_for_user
+	# GET /assemblies
   # GET /assemblies.json
   def index
     @assemblies = Assembly.where(:parent_id => nil)

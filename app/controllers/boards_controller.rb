@@ -1,5 +1,6 @@
 class BoardsController < ApplicationController
 	before_filter :find_chamber
+	before_filter :check_for_user
   # GET /boards
   # GET /boards.json
   def index

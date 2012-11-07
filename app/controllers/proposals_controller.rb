@@ -1,10 +1,10 @@
 class ProposalsController < ApplicationController
+	before_filter :check_for_user
 	before_filter :find_chamber
   # GET /proposals
   # GET /proposals.json
   def index
     @proposals = @chamber.proposals.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @proposals }

@@ -1,11 +1,11 @@
-<% if can(:read, item) %>
 	<table class="table table-condensed table-bordered" style="margin-bottom: 2px; background-color: #fff; padding: 0; width: auto;">
 		<tr>
 			<td style="background-color: #EDEDED; font-size: larger;" width="60%"><b><%= (can(:read, item) == '*') ? i('star') : '' %><%= can(:read, item) ? link_to(@short ? item.title : item.path, item) : item.title%></b></td>
+			<% if can(:read,item) %>
 			<td><%= link_to chamber_proposals_path(item), :rel => 'tooltip', :title => 'Proposals' do %><%= i 'inbox' %> - <%= item.proposals.count %><% end %></td>
 			<td><%= link_to chamber_ballots_path(item), :rel => 'tooltip', :title => 'Ballots' do %><%= i 'file' %> - <%= item.ballots.count %><% end %></td>
 			<td><%= link_to chamber_boards_path(item), :rel => 'tooltip', :title => 'Discussion Boards' do %><%= i 'comment' %> - <%= item.boards.count %><% end %></td>
 			<td><%= link_to chamber_events_path(item), :rel => 'tooltip', :title => 'Events' do %><%= i 'globe' %> - <%= item.events.count %><% end %></td>
+		<% end %>
 		</tr>
 	</table>
-<% end %>

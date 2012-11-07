@@ -1,4 +1,5 @@
 module ApplicationHelper
+	include ActsAsTaggableOn::TagsHelper
 	def current_user  
 		if session[:user_id]
 			current_user ||= User.find(session[:user_id])
@@ -129,12 +130,6 @@ module ApplicationHelper
 
 	def recurse_assemblies assembly, chambers = false
 		buf = "<ul>\n"
-		assembly.assemblies.each do |a|
-			buf << "<li>" + link_to(a.name, a) + "</li>"
-			if a.assemblies.count > 0 || (a.chambers.count > 0 && chambers)
-				buf << recurse_assemblies(a, chambers ? true : false)
-			end
-		end
 		if assembly.chambers.count > 0 && chambers
 			assembly.chambers.each do |chamber|
 				if chambers == "long"
@@ -144,7 +139,36 @@ module ApplicationHelper
 				end
 			end
 		end
+		assembly.assemblies.each do |a|
+			buf << "<li>" + link_to(a.name, a) + "</li>"
+			if a.assemblies.count > 0 || (a.chambers.count > 0 && chambers)
+				buf << recurse_assemblies(a, chambers ? true : false)
+			end
+		end
+		
 		buf << "</ul>"
 		buf.html_safe
+	end
+
+	def tagbox item 
+		buffer = '<div class="well" style="min-height: 5px; padding: 5px; padding-bottom: 0px;">' + "\n"
+		tag_cloud(item.tag_counts_on(:tags), %w(css1 css2 css3 css4)) do |tag, css_class| 
+			buffer << link_to(tag.name, '/tag/tagged/'+tag.name, :class => css_class) + " "
+			buffer << link_to((' ' + i('remove')).html_safe, '/tag/untag/'+tag.name+'?model='+item.class.to_s+'&id='+item.id.to_s) + " " if can(:admin)
+		end
+
+		buffer << '<h4>Add a Tag</h4>'
+		buffer << form_tag('/tag/tag') do
+			[
+				hidden_field_tag(:model, item.class.to_s),
+				hidden_field_tag(:id, item.id),
+				text_field_tag(:tag),
+				submit_tag("Add Tag")
+			].join.html_safe
+		end
+
+		buffer << "</div>"
+
+		buffer.html_safe
 	end
 end

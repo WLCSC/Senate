@@ -1,5 +1,6 @@
 class BallotsController < ApplicationController
 	before_filter :find_chamber
+	before_filter :check_for_user
   # GET /ballots
   # GET /ballots.json
   def index

@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
 	before_filter :find_chamber
+	before_filter :check_for_user
   # GET /events
   # GET /events.json
   def index

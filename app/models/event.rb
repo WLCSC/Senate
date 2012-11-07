@@ -17,4 +17,12 @@ class Event < ActiveRecord::Base
 		end
 
 	end
+
+	def past?
+		self.time < Time.now
+	end
+
+	def old?
+		self.time < Time.now
+	end
 end

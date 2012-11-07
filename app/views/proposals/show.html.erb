@@ -1,5 +1,4 @@
 <%= render :partial => 'proposal', :locals => {:item => @proposal, :depth => nil, :comments => true} %>
-<div class="nested_comment">
+<%= tagbox @proposal %>
 	<%= nested_comments @proposal.comments, false, 3 %>
-	<%= render :partial => 'comments/form', :locals => {:parent => @proposal} %>
-</div>
+	<%= render :partial => 'comments/form', :locals => {:parent => @proposal} unless @proposal.closed %>

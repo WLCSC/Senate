@@ -1,4 +1,5 @@
 class PermissionsController < ApplicationController
+	before_filter :check_for_user
 	before_filter :find_chamber
   # GET /permissions
   # GET /permissions.json

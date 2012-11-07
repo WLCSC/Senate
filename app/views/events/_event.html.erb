@@ -1,21 +1,22 @@
-<div class="proposal">
-	<h3>Event #<%= item.id %> - <%= item.title %></h3>
+<div class="proposal<%= " old" if item.old? %>">
+	<%= link_to [@chamber, item ] do %><h3>Event #<%= item.id %> - <%= item.title %></h3><% end %>
 	<h4><%= nice_datetime item.time %> - <%= time_delta item.time %></h4>
 	<%= markdown item.notes %>
 
 	<p>
 	<% if item.users.count > 0 %>
-		<%= item.users.all.map{|u| link_to(u.name, u)}.join(', ').html_safe %> will be there!
+		<%= item.users.all.map{|u| link_to(u.name, u)}.join(', ').html_safe %> <%= item.old? ? (item.users.all.count == 1 ? "was there" : "were there") : "will be there" %>!
 	<% else %>
-		Nobody's attending this event yet.
+		<%= !item.old? ? "Nobody's attending this event yet." : "Nobody attended this event." %>
 	<% end %>
 	</p>
-
-	<% if item.users.include? current_user %>
+	<% if !item.old? %>
+	<% if item.users.include?(current_user) %>
 		<%= link_to "Never mind, I'm not coming", unattend_chamber_event_path(@chamber, item), :class => 'btn btn-warning' %>
 	<% else %>
 		<%= link_to "I'm coming", attend_chamber_event_path(@chamber, item), :class => 'btn btn-success' %>
 	<% end %>
+<% end %>
 	<% if can(:execute, @chamber ) %> 
 		<div class="announce_foot">
 
@@ -23,4 +24,9 @@
 
 		</div>
 	<% end %>
+	<% if @tags %>
+	<p>
+	Tagged with: <%= item.tag_list %>
+	</p>
+<% end %>
 </div>

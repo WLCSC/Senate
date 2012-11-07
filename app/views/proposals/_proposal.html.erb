@@ -1,9 +1,8 @@
-<div class="proposal">
-	<h3>Proposal #<%= item.id %> - <%= item.title %></h3>
+<div class="proposal<%= ' old' if item.closed %>">
+	<%= link_to [@chamber, item] do %><h3>Proposal #<%= item.id %> - <%= item.title %></h3><% end %>
 	<h4>Proposed by <%= link_to (@chamber ? item.user.titleize(@chamber): item.user.name), item.user %> <%= time_delta item.created_at %></h4>
 	<h4>Proposal Score: <%= item.score || 0 %> - <%= link_to "See Details", inspect_chamber_proposal_path(@chamber, item) %></h4>
 	<%= markdown item.content %>
-
 
 	<% if item.closed %>
 		<p>This proposal is closed.</p>
@@ -55,5 +54,9 @@
 					<% end %>
 				</div>
 			<% end %>
-
+<% if @tags %>
+	<p>
+	Tagged with: <%= item.tag_list %>
+	</p>
+<% end %>
 		</div>

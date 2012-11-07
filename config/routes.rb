@@ -1,4 +1,11 @@
 Senate2::Application.routes.draw do
+  post "tag/tag"
+
+  get "tag/untag/:tag", :controller => 'tag', :action => 'untag'
+
+  get "tag/tagged/:tag", :controller => 'tag', :action => 'tagged'
+  get "tagged/:tag", :controller => 'tag', :action => 'tagged'
+
   resources :assemblies
 
 	get "comments/create"

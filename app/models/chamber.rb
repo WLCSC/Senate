@@ -15,7 +15,7 @@ class Chamber < ActiveRecord::Base
 
 	def path
 		buf = parent.path
-		buf << " < " << title
+		buf << " > " << title
 	end
 
 	def secures user

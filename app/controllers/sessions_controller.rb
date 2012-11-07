@@ -2,6 +2,9 @@ require 'auth.rb'
 
 class SessionsController < ApplicationController
 	def new
+		if current_user
+			redirect_to params[:return] || '/'
+		end
 	end
 
 	def create
