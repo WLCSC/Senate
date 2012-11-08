@@ -8,3 +8,5 @@ ActionMailer::Base.smtp_settings = {
    :enable_starttls_auto => APP_CONFIG[:email_tls_auto]  
 }  
 
+ActsAsTaggableOn.remove_unused_tags = true
+ActsAsTaggableOn.force_lowercase = true

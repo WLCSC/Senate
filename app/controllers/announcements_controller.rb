@@ -27,11 +27,14 @@ class AnnouncementsController < ApplicationController
   # GET /announcements/new.json
   def new
     @announcement = Announcement.new
-
+		if can(:admin)
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @announcement }
     end
+		else
+			redirect_to @chamber, :notice => "You don't have permission to do that."
+		end
   end
 
   # GET /announcements/1/edit
