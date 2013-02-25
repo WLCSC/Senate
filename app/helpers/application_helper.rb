@@ -203,6 +203,7 @@ module ApplicationHelper
 			buffer << " in " 
 			buffer << (can(:read, log.chamber) ? link_to(log.chamber.title, log.chamber) : log.chamber.title)
 		end
+		buffer << ' <span style="color: #666;">' + distance_of_time_in_words_to_now(log.created_at) + ' ago</span>'
 		buffer << "</div>"
 		buffer.html_safe
 	end
