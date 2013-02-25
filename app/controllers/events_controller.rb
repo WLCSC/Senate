@@ -46,6 +46,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
+				Log.create(:user => current_user, :chamber => @chamber, :action_type => "Event", :action_id => @event.id, :comment => "posted a new event")
         format.html { redirect_to [@chamber, @event], notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
@@ -75,23 +76,29 @@ class EventsController < ApplicationController
   # DELETE /events/1.json
   def destroy
     @event = Event.find(params[:id])
+		if @event
     @event.destroy
 
     respond_to do |format|
       format.html { redirect_to chamber_events_url(@chamber) }
       format.json { head :no_content }
     end
+		else
+			redirect_to session[:return_to], :notice => "Event was already deleted."
+		end
   end
 
   def attend
 	@event = Event.find(params[:id])
 	Attendee.create!(:event_id => @event.id, :user_id => current_user.id)
+	Log.create(:user => current_user, :chamber => @chamber, :action_type => "Event", :action_id => @event.id, :comment => "is attending #{@event.display}")
 	redirect_to [@chamber, @event], :info => 'You are now attending this event.'
   end
 
   def unattend
 	@event = Event.find(params[:id])
 	Attendee.where(:event_id => @event.id, :user_id => current_user.id).first.delete
+	Log.create(:user => current_user, :chamber => @chamber, :action_type => "Event", :action_id => @event.id, :comment => "is no longer attending #{@event.display}")
 	redirect_to [@chamber, @event], :info => 'You are no longer attending this event.'
   end
 end

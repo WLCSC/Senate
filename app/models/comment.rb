@@ -23,4 +23,8 @@ class Comment < ActiveRecord::Base
 			commentable
 		end
 	end
+
+	def can? user, right
+		superparent.can? user, right
+	end
 end

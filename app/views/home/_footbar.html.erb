@@ -1,13 +1,30 @@
-<% if current_user && current_user.admin?%>
-	<div class="navbar navbar-fixed-bottom">
+<% if current_user %>
+	<%
+		online_users = User.all.delete_if{|u| !u.online?}
+	%>
+	<div class="navbar navbar-fixed-bottom hidden-phone">
 		<div class="navbar-inner" style="padding-top: -10px; padding-bottom: -10px; min-height: none;">
 			<div class="container">
 				<ul class="nav" style="margin: auto;">
-					<li class="navbar-text"><p style="color: #111; font-size: larger; font-weight: bold;">Admin Tools<p></li>
-					<li><%= link_to i('user') + "Users", users_path %></li>
-					<li><%= link_to i('list-alt') + "Groups", groups_path %></li>
-					<li><%= link_to i('briefcase') + "Chambers", chambers_path %></li>
-					<li><%= link_to i('briefcase') + "Assemblies", assemblies_path %></li>
+					<li class="dropup">
+					<a href="#"><%= i('user')%> Online Users <span class="badge"><%= online_users.count %></span> <%= i 'chevron-up' %></a>
+					<ul class="dropdown-menu">
+						<% online_users.each do |u| %>
+							<li><%= link_to u.name, u %></li>						
+						<% end %>
+					</ul>
+					</li>
+					<% if current_user.admin? %>
+						<li class="dropup"><a href="<%= admin_index_path %>"  style="color: #111; font-weight: bold;"><%= i 'chevron-up' %> Admin Tools</a>
+						<ul class="dropdown-menu">
+						<li><%= link_to i('user') + "Users", users_path %></li>
+						<li><%= link_to i('list-alt') + "Groups", groups_path %></li>
+						<li><%= link_to i('briefcase') + "Chambers", chambers_path %></li>
+						<li><%= link_to i('briefcase') + "Assemblies", assemblies_path %></li>
+					</ul>
+						</li>
+					<% end %>
+
 				</ul>
 			</div>
 		</div>

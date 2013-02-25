@@ -20,16 +20,9 @@
 </dl>
 <% end %>
 <% end %>
+
 <h3>Group Members</h3>
-<table class="table table-condensed table-bordered table-striped" %>
-	<% @group.users.in_groups_of(6) do |group| %>
-		<tr>
-			<% group.each do |user| %>
-				<td><%= link_to user.name, user if user %></td>
-			<% end %>
-		</tr>
-	<% end %>
-</table>
+<%= pills_for @group.users %>
 
 <% if current_user.admin? %>
 <div class="form-actions">

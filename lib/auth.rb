@@ -23,7 +23,7 @@ def ldap_populate user, pass, obj=nil
 		u.username = user
 		u.name = l['givenname'][0].to_s + " " + l['sn'][0].to_s unless u.name
 		u.administrator = true if(l[:memberof].include? APP_CONFIG[:ldap_domain_administrator_ou])
-		u.email = l['mail'][0]
+		u.email ||= l['mail'][0]
 
 		Group.all.each do |group|
 			unless group.auth_attribute == "*"

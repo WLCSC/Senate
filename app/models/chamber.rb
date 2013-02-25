@@ -7,7 +7,12 @@ class Chamber < ActiveRecord::Base
 	has_many :events, :dependent => :destroy
 	has_many :permissions, :as => :securable, :dependent => :destroy
 	has_many :principals, :through => :permissions
+	has_many :logs
 	belongs_to :assembly
+
+	def display
+		self.title
+	end
 
 	def parent
 		self.assembly
@@ -22,17 +27,13 @@ class Chamber < ActiveRecord::Base
 		x = nil
 		self.permissions.sort{|a,b| b.priority <=> a.priority}.each do |p|
 			if (p.authorizes? user)
-				puts "Chamber##{self.id}: [#{p.to_qs}] secures #{user.name}"
 				x = p
 			else
-				puts "Chamber##{self.id}: [#{p.to_qs}] does not secure #{user.name}"
 			end
 		end
 		if x
-			puts "Chamber##{self.id}: Directly secures #{user.name} with [#{x.to_qs}]"
 			return x
 		else
-			puts "Chamber##{self.id}: Does not secure #{user.name}"
 			return nil
 		end
 	end
@@ -56,7 +57,7 @@ class Chamber < ActiveRecord::Base
 				r=p.read
 			when :write
 				r=p.write
-			when :execute
+			when :execute, :admin
 				r=p.execute
 			end
 		else
@@ -82,4 +83,8 @@ class Chamber < ActiveRecord::Base
 	def titles_for user
 		Entitlement.where(:user_id => user.id).where(:title_id => self.title_ids).all.map{|w| w.title}
 	end
+
+	def online_users
+		users.delete_if{|u| !u.online?}
+	end	
 end

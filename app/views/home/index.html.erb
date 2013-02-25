@@ -16,11 +16,11 @@
 				<% current_user.chambers.each do |chamber| %>
 					<%= render :partial => 'chambers/short_chamber', :locals => {:item => chamber} %>
 				<% end %>
-
 			<% else %>
 				<h1>Log in</h1>  
 
-				<%= form_tag '/sessions/create' do %>  
+				<%= form_tag sessions_path, :method => :post do %> 
+					<%= hidden_field_tag :return, params[:return] %>
 					<p>  
 					<%= label_tag :username %><br />  
 					<%= text_field_tag :username, params[:username] %>  

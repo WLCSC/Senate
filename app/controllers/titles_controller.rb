@@ -75,18 +75,22 @@ class TitlesController < ApplicationController
   # DELETE /titles/1.json
   def destroy
     @title = Title.find(params[:id])
+		if @title
     @title.destroy
 
     respond_to do |format|
       format.html { redirect_to chamber_titles_url(@chamber) }
       format.json { head :no_content }
     end
+		else
+			redirect_to session[:return_to], :notice => "Title was already deleted."
+		end
   end
 
   def change
 	@title = Title.find(params[:id])
 	@user = User.where(:name => params[:name]).first
-
+  if @user
 	q = ""
 	if @title.users.include? @user
 		@title.users.delete @user
@@ -97,5 +101,8 @@ class TitlesController < ApplicationController
 	end
 
 	redirect_to [@chamber, @title], :info => q + "user to group."
+	else
+	redirect_to [@chamber, @title], :notice => "Couldn't find user #{params[:name]}."
+	end
   end
 end

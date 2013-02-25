@@ -1,0 +1,11 @@
+<h1>Things Tagged with "<%= params[:tag]%>"</h1>
+
+<ul>
+<% @collection.each do |thing| %>
+	<% if can(:read, thing.chamber) %>
+		<li><%= link_to thing.chamber.path + " > " + thing.title + " (#{thing.class.to_s})", [thing.chamber, thing] %></li>
+	<% else %>
+		<li><%= thing.chamber.path + " > " + thing.title + " (#{thing.class.to_s})" %></li>
+	<% end %>
+<% end %>
+</ul>

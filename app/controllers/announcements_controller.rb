@@ -45,9 +45,11 @@ class AnnouncementsController < ApplicationController
   # POST /announcements
   # POST /announcements.json
   def create
+		if can(:admin)
     @announcement = Announcement.new(params[:announcement])
 
     respond_to do |format|
+			Log.create(:user => current_user, :chamber => @chamber, :action_type => "Announcement", :action_id => @announcement.id, :comment => "posted a new announcement")
       if @announcement.save
         format.html { redirect_to @announcement.chamber, notice: 'Announcement was successfully created.' }
         format.json { render json: @announcement, status: :created, location: @announcement }
@@ -56,6 +58,9 @@ class AnnouncementsController < ApplicationController
         format.json { render json: @announcement.errors, status: :unprocessable_entity }
       end
     end
+		else
+			redirect_to @chamber, :notice => "You don't have permission to do that."
+		end
   end
 
   # PUT /announcements/1
@@ -78,11 +83,15 @@ class AnnouncementsController < ApplicationController
   # DELETE /announcements/1.json
   def destroy
     @announcement = Announcement.find(params[:id])
+		if @announcement
     @announcement.destroy
 
     respond_to do |format|
       format.html { redirect_to @chamber }
       format.json { head :no_content }
     end
+		else
+			redirect_to session[:return_to], :notice => "Announcement was already deleted."
+		end
   end
 end

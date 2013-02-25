@@ -86,6 +86,7 @@ class GroupsController < ApplicationController
 	@group = Group.find(params[:id])
 	@user = User.where(:name => params[:name]).first
 
+	if @user
 	q = ""
 	if @group.users.include? @user
 		@group.users.delete @user
@@ -94,7 +95,10 @@ class GroupsController < ApplicationController
 		@group.users << @user
 		q = "Added "
 	end
-
-	redirect_to @group, :info => q + "user to group."
+		flash[:info] = "Added #{@user.name} to group."
+	else
+		flash[:error] = "Couldn't find user #{params[:name]}."
+	end
+	redirect_to @group
   end
 end

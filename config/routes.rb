@@ -1,10 +1,11 @@
 Senate2::Application.routes.draw do
-  post "tag/tag"
+  get "admin/index"
 
-  get "tag/untag/:tag", :controller => 'tag', :action => 'untag'
+  post "tag/tag", :as => :tag
 
-  get "tag/tagged/:tag", :controller => 'tag', :action => 'tagged'
-  get "tagged/:tag", :controller => 'tag', :action => 'tagged'
+  get "tag/untag/:tag", :controller => 'tag', :action => 'untag', :as => :untag
+
+  get "tagged/:tag", :controller => 'tag', :action => 'tagged', :as => :tagged
 
   resources :assemblies
 
@@ -74,14 +75,11 @@ Senate2::Application.routes.draw do
 		end
 	end
 
-
-	post "sessions/create"
-
+	match 'sessions/new' => 'sessions#new'
 	resources :users
-
-	get "sessions/new"
-
-	match "sessions/destroy"
+	resources :sessions do
+		get :delete, :on => :collection, :action => :destroy
+	end
 
 	# The priority is based upon order of creation:
 	# first created -> highest priority.

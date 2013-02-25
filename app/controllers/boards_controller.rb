@@ -46,6 +46,7 @@ class BoardsController < ApplicationController
 
     respond_to do |format|
       if @board.save
+				Log.create(:user => current_user, :chamber => @chamber, :action_type => "Board", :action_id => @board.id, :comment => "created a new discussion board")
         format.html { redirect_to [@chamber,@board], notice: 'Board was successfully created.' }
         format.json { render json: @board, status: :created, location: @board }
       else
@@ -75,11 +76,17 @@ class BoardsController < ApplicationController
   # DELETE /boards/1.json
   def destroy
     @board = Board.find(params[:id])
+		name = @board.display
+		if @board
     @board.destroy
 
     respond_to do |format|
+			Log.create(:user => current_user, :chamber => @chamber, :action_type => nil, :action_id => nil, :comment => "removed the #{name} discussion board")
       format.html { redirect_to chamber_boards_url(@chamber) }
       format.json { head :no_content }
     end
+		else
+			redirect_to session[:return_to], :notice => "Discussion Board was already deleted."
+		end
   end
 end

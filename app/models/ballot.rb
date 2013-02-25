@@ -8,6 +8,10 @@ class Ballot < ActiveRecord::Base
 	before_create :set_options
 	serialize :options, Hash
 
+	def display
+		self.title
+	end
+
 	def set_options
 		x = {}
 		i = 0
@@ -22,22 +26,17 @@ class Ballot < ActiveRecord::Base
 		x = nil
 		self.permissions.sort{|a,b| b.priority <=> a.priority}.each do |p|
 			if (p.authorizes? user)
-				puts "Ballot##{self.id}: [#{p.to_qs}] secures #{user.name}"
 				x = p
 			else
-				puts "Ballot##{self.id}: [#{p.to_qs}] does not secure #{user.name}"
 			end
 		end
 		if x
-			puts "Ballot##{self.id}: Directly secures #{user.name} with [#{x.to_qs}]"
 			return x
 		else
 			y = self.chamber.secures user
 			if y
-				puts "Ballot##{self.id}: Indirectly secures #{user.name} with [#{y.to_qs}]"
 				return y
 			else
-				puts "Ballot##{self.id}: Does not secure #{user.name}"
 				return nil
 			end
 		end
@@ -63,13 +62,13 @@ class Ballot < ActiveRecord::Base
 				r=p.read
 			when :write
 				r=p.write
-			when :execute
+			when :execute, :admin
 				r=p.execute
 			end
 		else
 			r=false
+			return '*' if user.admin?
 		end
-		puts "Ballot##{self.id}: can #{user.name} #{right.to_s}: #{r}"
 		r
 	end
 

@@ -1,6 +1,6 @@
     <h1>Log in</h1>  
       
-    <%= form_tag '/sessions/create' do %>  
+    <%= form_tag session_path, :method => :post do %>  
       <p>  
         <%= label_tag :username %><br />  
         <%= text_field_tag :username, params[:username] %>  

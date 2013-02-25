@@ -5,6 +5,10 @@ class Group < ActiveRecord::Base
 	has_many :permissions, :through => :principal
 	after_create :c_principal
 
+	def display
+		self.name
+	end
+
 	def all_principals
 		[self.principal] + self.users.map{|u| u.principal}
 	end

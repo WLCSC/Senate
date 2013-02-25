@@ -1,4 +1,4 @@
-<div class="navbar navbar-fixed-top">
+<div class="navbar navbar-fixed-top hidden-phone">
 	<div class="navbar-inner">
 		<div class="container">
 			<a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
@@ -6,30 +6,31 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<a class="brand" href="/">Senate</a>
+			<%= link_to "Senate", root_path, :class => 'brand' %>
 			<div class="container nav-collapse">
 				<ul class="nav">
 					<% if current_user %>
-						<li><%= link_to i('user') + "Log Out", '/sessions/destroy' %></li>
-						<li><%= link_to i('edit') + current_user.name, current_user %></li>
-						<li class="divider-vertical"></li>
+						<li><%= link_to i('user') + " Log Out", delete_sessions_path %></li>
+						<li><%= link_to i('edit') + " " + current_user.name, current_user %></li>
 						<% if @chamber && @chamber.title != nil %>
-							<li><%= link_to i('briefcase') + @chamber.title, @chamber %></li>
-							<li><%= link_to i('comment') + 'Discussion', chamber_boards_path(@chamber) %></li>
-							<li><%= link_to i('inbox') + 'Proposals', chamber_proposals_path(@chamber) %></li>
-							<li><%= link_to i('file') + 'Ballots', chamber_ballots_path(@chamber) %></li>
-							<li><%= link_to i('globe') + 'Events', chamber_events_path(@chamber) %></li>
+							<li class="dropdown"><%= link_to i('briefcase') + ' ' + @chamber.title + " " + i('chevron-down'), @chamber %>
+							
+							<ul class="dropdown-menu">
+							<li><%= link_to i('comment') + ' Discussion', chamber_boards_path(@chamber) %></li>
+							<li><%= link_to i('inbox') + ' Proposals', chamber_proposals_path(@chamber) %></li>
+							<li><%= link_to i('file') + ' Ballots', chamber_ballots_path(@chamber) %></li>
+							<li><%= link_to i('globe') + ' Events', chamber_events_path(@chamber) %></li>
 							<% if can(:execute, @chamber) %>
-								<li><%= link_to i('lock') + "Permissions", chamber_permissions_path(@chamber) %></li>
-								<li><%= link_to i('bullhorn') + "Titles", chamber_titles_path(@chamber) %></li>
+								<li><%= link_to i('lock') + " Permissions", chamber_permissions_path(@chamber) %></li>
+								<li><%= link_to i('bullhorn') + " Titles", chamber_titles_path(@chamber) %></li>
 							<% end %>
+						</ul>
+							</li>
 						<% else %>
 							<li><%= link_to i('briefcase') + "All Chambers", chambers_path %></li>
 						<% end %>
-						<% if current_user.admin? %>
-						<% end %>
 					<% else %>
-						<li><%= link_to "Log In", '/' %></li>
+						<li><%= link_to "Log In", root_path %></li>
 					<% end %>
 				</ul>
 			</div><!--/.nav-collapse -->

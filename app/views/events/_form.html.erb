@@ -1,3 +1,9 @@
+<% if @event.errors.full_messages.any? %>
+<% @event.errors.full_messages.each do |msg| %>
+	<div class="alert alert-error"><%= msg %><a href="#" class="close" data-dismiss="alert">X</a></div>
+<% end %>
+<% end %>
+
 <%= form_for [@chamber, @event] do |f| %>
   <p>
     <%= f.label :title %><br />

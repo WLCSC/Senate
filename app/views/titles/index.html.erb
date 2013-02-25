@@ -10,6 +10,7 @@
 			<td><%= link_to title.title, [@chamber, title] %></td>
 			<td><%= title.users.map{|u| link_to u.name, u}.join(', ').html_safe %></td>
 			<td><%= link_to "Edit", edit_chamber_title_path(@chamber, title), :class => "btn btn-info btn-mini" %></td>
+			<td><%= link_to "Delete", chamber_title_path(@chamber, title), :class => "btn btn-danger btn-mini", :method => :delete %></td>
 			
 		</tr>
 	<% end %>

@@ -1,55 +1,53 @@
-<%- model_class = @user.class -%>
-<h1><%= @user.name %></h1>
-
-<dl class="dl-horizontal">
-  <dt><strong>Name:</strong></dt>
-  <dd><%= @user.name %></dd>
-  <dt><strong>Username:</strong></dt>
-  <dd><%= @user.username %></dd>
-  <dt><strong>Email:</strong></dt>
-  <dd><%= @user.email %></dd>
-  <dt><strong>Administrator:</strong></dt>
-  <dd><%= truthy_thumb @user.administrator %></dd>
+<div width="100%">
+<div class="span6">
+<h1><%= @user.name %><% if @user.online? %><span style="color: #4f4;"> - Online</span><% end %></h1>
+<div> 
+	<dl class="dl-horizontal">
+<dt><strong>Username:</strong></dt>
+<dd><%= @user.username %></dd>
+<dt><strong>Email:</strong></dt>
+<dd><%= @user.email %></dd>
+<dt><strong>Administrator:</strong></dt>
+<dd><%= truthy_thumb @user.administrator %></dd>
 </dl>
+	<%= link_to 'Edit', edit_user_path(@user), :class => 'btn btn-info' if (current_user && (current_user.admin? || @user == current_user)) %>
+</div>
 
 <h2>Groups</h2>
 <p><%= @user.name %> belongs to these security groups: </p>
-<table class="table table-condensed table-bordered table-striped" %>
-	<% @user.groups.in_groups_of(6) do |group| %>
-		<tr>
-			<% group.each do |user| %>
-				<td><%= link_to user.name, user if user %></td>
-			<% end %>
-		</tr>
-	<% end %>
-</table>
+<%= pills_for @user.groups %>
+
 
 <h2>Chambers</h2>
 <p><%= @user.name %> can participate in these chambers: </p>
-<table class="table table-condensed table-bordered table-striped" %>
-	<% @user.chambers.in_groups_of(6) do |group| %>
-		<tr>
-			<% group.each do |user| %>
-				<td>
-					<% if (current_user && user && can(:read, user, current_user)) %>
-						<%= link_to(user.title, user)  %>
-					<% else %>
-						<%= user.title if user %>
-					<% end %>
-					</td>
-			<% end %>
-		</tr>
-	<% end %>
-</table>
+<%= pills_for @user.chambers %>
 
 <h2>Titles</h2>
 <p><%= @user.name %> holds the following titles:</p>
-<table class="table table-condensed table-bordered table-striped" %>
-	<% @user.titles.each do |title| %>
-		<td><%= title.title %></td>
-		<td><%= can(:read, title.chamber) ? link_to(title.chamber.title, title.chamber) : title.chamber.title %></td>
+<% if @user.titles.count > 0 %>
+	<ul>
+		<% @user.chambers.each do |ch| %>
+			<% tx = ch.titles.delete_if{|t| !t.users.include?(@user)} %>
+			<% if tx.count > 0 %>
+				<li> <%= can(:read, ch) ? link_to(ch.title, ch) : ch.title %></li>
+				<ul>
+					<% tx.each do |title| %>
+						<li><b><%= title.title %></b></li>
+					<% end %>
+				</ul>
+			<% end %>
+		</ul>
 	<% end %>
-</table>
+	<% else %>
+		<p>No titles found.</p>
+	<% end %>
 
-  <%= link_to 'Edit', edit_user_path(@user), :class => 'btn btn-info' if (current_user && (current_user.admin? || @user == current_user)) %>
+</div>
 
+<div class="span4 offset1">
+	<h2>Recent Activity</h2>
+	<% @user.logs.order("created_at DESC").limit(20).each do |log| %>
+		<%= log_box log %>
+			<% end %>
+</div>
+</div>

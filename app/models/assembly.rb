@@ -3,6 +3,10 @@ class Assembly < ActiveRecord::Base
 	has_many :chambers
 	has_many :assemblies, :foreign_key => 'parent_id'
 
+	def display
+		self.name
+	end
+
 	def ancestors
 		arr = []
 		x = self

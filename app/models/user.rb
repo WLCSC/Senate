@@ -14,7 +14,12 @@ class User < ActiveRecord::Base
 	has_many :ballot_remarks
 	has_many :entitlements
 	has_many :titles, :through => :entitlements
+	has_many :logs
 	before_create :create_principal
+
+	def display
+		self.name
+	end
 
 	def create_principal
 		self.build_principal.save
@@ -50,6 +55,9 @@ class User < ActiveRecord::Base
 		end
 		r += ", " + titles if titles != ""
 		
+		if r.length > 60
+			r = r[0...57] + "..."	
+		end
 		r
 	end
 
@@ -60,4 +68,8 @@ class User < ActiveRecord::Base
 		end
 		chambers
 	end
+
+	def online?
+		updated_at > 5.minutes.ago
+	end	
 end

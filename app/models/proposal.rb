@@ -8,26 +8,25 @@ class Proposal < ActiveRecord::Base
 	has_many :proposal_remarks, :dependent => :destroy
 	has_many :comments, :as => :commentable, :dependent => :destroy
 
+	def display
+		self.title
+	end
+
 	def secures user
 		x = nil
 		self.permissions.sort{|a,b| b.priority <=> a.priority}.each do |p|
 			if (p.authorizes? user)
-				puts "Proposal##{self.id}: [#{p.to_qs}] secures #{user.name}"
 				x = p
 			else
-				puts "Proposal##{self.id}: [#{p.to_qs}] does not secure #{user.name}"
 			end
 		end
 		if x
-			puts "Proposal##{self.id}: Directly secures #{user.name} with [#{x.to_qs}]"
 			return x
 		else
 			y = self.chamber.secures user
 			if y
-				puts "Proposal##{self.id}: Indirectly secures #{user.name} with [#{y.to_qs}]"
 				return y
 			else
-				puts "Proposal##{self.id}: Does not secure #{user.name}"
 				return nil
 			end
 		end
@@ -53,7 +52,7 @@ class Proposal < ActiveRecord::Base
 				r=p.read
 			when :write
 				r=p.write
-			when :execute
+			when :execute, :can
 				r=p.execute
 			end
 		else

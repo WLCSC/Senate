@@ -49,6 +49,7 @@ class ProposalsController < ApplicationController
 
     respond_to do |format|
       if @proposal.save
+				Log.create(:user => current_user, :chamber => @chamber, :action_type => "Proposal", :action_id => @proposal.id, :comment => "created a new proposal")
         format.html { redirect_to [@chamber, @proposal], notice: 'Proposal was successfully created.' }
         format.json { render json: @proposal, status: :created, location: @proposal }
       else
@@ -78,24 +79,35 @@ class ProposalsController < ApplicationController
   # DELETE /proposals/1.json
   def destroy
     @proposal = Proposal.find(params[:id])
+		if @proposal
+		@chamber = @proposal.chamber
     @proposal.destroy
 
     respond_to do |format|
-      format.html { redirect_to proposals_url }
+      format.html { redirect_to chamber_proposals_url(@chamber) }
       format.json { head :no_content }
     end
+		else
+			redirect_to session[:return_to], :notice => "Comment was already deleted."
+		end
   end
 
   def vote
 	@proposal = Proposal.find(params[:id])
-	ProposalRemark.create!(:proposal_id => @proposal.id, :user_id => current_user.id, :remark => params[:remark])
-	redirect_to [@chamber, @proposal], :info => 'Your vote has been submitted.'
+	if ProposalRemark.where(:proposal_id => @proposal, :user_id => current_user.id).count > 0
+		redirect_to [@chamber, @proposal], :info => 'You already voted.'
+	else
+		ProposalRemark.create!(:proposal_id => @proposal.id, :user_id => current_user.id, :remark => params[:remark])
+		Log.create(:user => current_user, :chamber => @chamber, :action_type => "Proposal", :action_id => @proposal.id, :comment => "voted on a proposal")
+		redirect_to [@chamber, @proposal], :info => 'Your vote has been submitted.'
+	end
 	end
 
   def close
 	@proposal = Proposal.find(params[:id])
 	@proposal.closed = true
 	@proposal.save
+		Log.create(:user => current_user, :chamber => @chamber, :action_type => "Proposal", :action_id => @proposal.id, :comment => "closed a proposal")
 	redirect_to [@chamber, @proposal], :info => 'Closed proposal.'
   end
 

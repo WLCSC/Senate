@@ -1,8 +1,12 @@
 <%= form_for @chamber, :html => { :class => 'form-horizontal' } do |f| %>
   <div class="control-group">
     <%= f.label :title, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :title, :class => 'text_field' %>
+		<div class="controls">
+			<% if @chamber.title && !current_user.admin? %>
+				<%= @chamber.title %>
+			<% else %>
+				<%= f.text_field :title, :class => 'text_field' %>
+			<% end %>
     </div>
   </div>
   <div class="control-group">

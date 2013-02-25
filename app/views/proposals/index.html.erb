@@ -1,6 +1,6 @@
 <h1>Proposals in <%= @chamber.title %></h1>
 
-<% @proposals.sort_by{|x| [(x.closed ? 1 : 0), x.score]}.each do |proposal| %>
+<% @proposals.sort{|x, y| [(x.closed ? 1 : 0), y.score] <=> [(y.closed ? 1 : 0), x.score]}.each do |proposal| %>
 	<%= render :partial => 'proposal', :locals => {:item => proposal} %>
 <% end %>
 

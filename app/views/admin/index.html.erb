@@ -1,0 +1,19 @@
+<h1>Administrator Control Panel</h1>
+<h2>Users & Groups</h2>
+<table class="table">
+	<tr>
+		<td><%= link_to "Manage Users", users_path, :class => "btn btn-large btn-block" %> </td>
+		<td><%= link_to "Manage Groups", groups_path, :class => "btn btn-large btn-block" %> </td>
+		<td><%= link_to "New Group", new_group_path, :class => "btn btn-large btn-block" %> </td>
+	</td>
+</table>
+
+<h2>Chambers & Assemblies</h2>
+<table class="table">
+	<tr>
+		<td><%= link_to "All Chambers", chambers_path, :class => "btn btn-large btn-block" %> </td>
+		<td><%= link_to "New Chamber", new_chamber_path, :class => "btn btn-large btn-block" %> </td>
+		<td><%= link_to "All Assemblies", assemblies_path, :class => "btn btn-large btn-block" %> </td>
+		<td><%= link_to "New Assembly", new_assembly_path, :class => "btn btn-large btn-block" %> </td>
+	</td>
+</table>

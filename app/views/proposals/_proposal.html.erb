@@ -1,12 +1,11 @@
 <div class="proposal<%= ' old' if item.closed %>">
-	<%= link_to [@chamber, item] do %><h3>Proposal #<%= item.id %> - <%= item.title %></h3><% end %>
+	<%= link_to [@chamber, item] do %><h3>Proposal #<%= item.id %> - <%= item.title %><% end %> - <%= item.score || 0 %> points</h3>
 	<h4>Proposed by <%= link_to (@chamber ? item.user.titleize(@chamber): item.user.name), item.user %> <%= time_delta item.created_at %></h4>
-	<h4>Proposal Score: <%= item.score || 0 %> - <%= link_to "See Details", inspect_chamber_proposal_path(@chamber, item) %></h4>
+	<h4><%= link_to "See Voting Details", inspect_chamber_proposal_path(@chamber, item) %></h4>
 	<%= markdown item.content %>
 
 	<% if item.closed %>
 		<p>This proposal is closed.</p>
-		<%= link_to("Comments", [@chamber, item], :class => 'btn btn-info btn-mini') %>
 	<% else %>
 
 		<% if item.voted? current_user %>
@@ -39,21 +38,22 @@
 						<% end %>
 					<% end %>
 				<% end %>
-				<div class="announce_foot">
+			<% end %>
+			<div class="announce_foot">
 					<% if can(:read, item) %>
-						<%= link_to("Comments", [@chamber, item], :class => 'btn btn-info btn-mini') %>
-						<%= link_to "Reply", [@chamber, item], :class => 'btn btn-mini btn-inverse' if can(:write, item) %>
+						<%= link_to(pluralize(item.count_children, "Comment"), [@chamber, item], :class => 'btn btn-info btn-mini') if item.comments.count > 0%>
+						<%= link_to "Reply", [@chamber, item], :class => 'btn btn-mini btn-inverse' if can(:write, item) && !item.closed %>
 					<% end %>
 
 
 
 					<% if can(:execute, item) %> 
-						<%= link_to "Close", close_chamber_proposal_path(@chamber, item), :class => 'btn btn-warning btn-mini' %>  
+						<%= link_to "Close", close_chamber_proposal_path(@chamber, item), :class => 'btn btn-warning btn-mini' if !item.closed %>  
 						<%= link_to "Delete", [@chamber, item], :method => :delete, :class => 'btn btn-danger btn-mini' %> 
-						<%= link_to "Permissions", chamber_proposal_permissions_path(@chamber, item), :class => 'btn btn-mini btn-info' %>
+						<%= link_to "Permissions", chamber_proposal_permissions_path(@chamber, item), :class => 'btn btn-mini btn-info' if !item.closed%>
 					<% end %>
 				</div>
-			<% end %>
+
 <% if @tags %>
 	<p>
 	Tagged with: <%= item.tag_list %>

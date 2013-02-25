@@ -45,6 +45,7 @@ class NewsItemsController < ApplicationController
 
     respond_to do |format|
       if @news_item.save
+				Log.create(:user => current_user, :chamber => nil, :action_type => "NewsItem", :action_id => @news_item.id, :comment => "posted some news")
         format.html { redirect_to root_path, notice: 'News item was successfully created.' }
         format.json { render json: @news_item, status: :created, location: @news_item }
       else
@@ -74,11 +75,16 @@ class NewsItemsController < ApplicationController
   # DELETE /news_items/1.json
   def destroy
     @news_item = NewsItem.find(params[:id])
+		if @news_item
     @news_item.destroy
 
     respond_to do |format|
       format.html { redirect_to news_items_url }
       format.json { head :no_content }
     end
+		else
+			redirect_to session[:return_to], :notice => "News was already deleted."
+
+		end
   end
 end

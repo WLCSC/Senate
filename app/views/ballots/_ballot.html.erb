@@ -25,9 +25,9 @@
 		<% if item.voted? current_user %>
 			<p>You voted already! <%= link_to "Cancel your vote", cancel_chamber_ballot_path(@chamber, item), :class => 'btn btn-mini btn-warning'  %></p>
 		<% else %> 
-			<% if can(:write, item) %>	
+			<% if can(:write, item) %>
 				<%= form_tag vote_chamber_ballot_path(@chamber, item), :class => "form-horizontal" %> 
-				<%= hidden_field_tag :proposal_id, item.id %> 
+				<%= hidden_field_tag :ballot_id, item.id %> 
 				<%= hidden_field_tag :user_id, current_user.id %>
 
 				<table>
@@ -41,26 +41,26 @@
 							<td><%= label_tag :remark, (o[1].to_s) %></td>
 							<td><%= radio_button_tag :remark, o[0] %></td>
 						</tr>
-				<% end %>
-			</table>
+					<% end %>
+				</table>
 				<%= submit_tag "Vote!", :class => "btn btn-success" %>
-				
 			<% end %>
 		<% end %>
-		<% if can(:execute, item) %>
-			<div class="announce_foot">
-
-				<%= link_to "Close", close_chamber_ballot_path(@chamber, item), :class => 'btn btn-warning btn-mini' %>  
-				<%= link_to "Delete", [@chamber, item], :method => :delete, :class => 'btn btn-danger btn-mini' %> 
-				<%= link_to "Permissions", chamber_ballot_permissions_path(@chamber, item), :class => 'btn btn-mini btn-info' %>
-
-			</div>
-		<% end %>
 	<% end %>
-<% if @tags %>
-	<p>
-	Tagged with: <%= item.tag_list %>
-	</p>
-<% end %>
+	<% if can(:execute, item) %>
+		<div class="announce_foot">
+
+			<%= link_to "Close", close_chamber_ballot_path(@chamber, item), :class => 'btn btn-warning btn-mini' if !item.closed%>  
+			<%= link_to "Delete", [@chamber, item], :method => :delete, :class => 'btn btn-danger btn-mini' %> 
+			<%= link_to "Permissions", chamber_ballot_permissions_path(@chamber, item), :class => 'btn btn-mini btn-info' if !item.closed%>
+
+		</div>
+	<% end %>
+
+	<% if @tags %>
+		<p>
+		Tagged with: <%= item.tag_list %>
+		</p>
+	<% end %>
 </div>
 

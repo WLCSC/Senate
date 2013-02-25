@@ -9,3 +9,7 @@
 	<li><%= render :partial => 'chambers/short_chamber', :locals => {:item => c} %></li>
 <% end %>
 </ul>
+
+<% if current_user.admin? %>
+	<%= link_to "Create a New Chamber", new_chamber_path, :class => 'btn btn-primary' %>
+<% end %>

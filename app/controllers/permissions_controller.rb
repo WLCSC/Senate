@@ -17,10 +17,14 @@ class PermissionsController < ApplicationController
 	@permissions = @chamber.permissions.all
     end
 
+		unless current_user.admin?
+		redirect_to( (@securable ? [@chamber, @securable] : @chamber) , :notice => "Only real admins get to mess with permissions") 
+		else
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @permissions }
     end
+		end
   end
 
   # GET /permissions/1

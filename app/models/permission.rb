@@ -18,7 +18,7 @@ class Permission < ActiveRecord::Base
 	end
 
 	def authorizes? user
-		self.principal.authorizes? user
+		self.principal ? self.principal.authorizes?(user) : false
 	end
 
 	def can right

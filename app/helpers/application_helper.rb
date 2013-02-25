@@ -111,10 +111,16 @@ module ApplicationHelper
 		sanitize(BlueCloth::new(text).to_html)
 	end
 
-	def nested_comments comments, rev=true, depth=1
-	comments.sort{|a,b| rev ? b.created_at <=> a.created_at : a.created_at <=> b.created_at}.map do |comment|
+	def nested_comments comments, rev=false, depth=1
+		set = []
+		if rev
+			set = comments.sort{|a,b| a.created_at <=> b.created_at}	
+		else
+			set = comments.sort{|a,b| b.created_at <=> a.created_at}	
+		end
+	set.map do |comment|
 		if comment != nil
-		render(:partial => 'comments/comment', :locals => {:item => comment, :parent => false, :depth => (depth > 4 ? comment.count_children-1 : nil)}) + (depth > 4 || comment.comments.length == 0 ? "" : content_tag(:div, nested_comments(comment.comments,false,depth+1), :class => 'nested_comment'))
+		render(:partial => 'comments/comment', :locals => {:item => comment, :parent => false, :depth => (depth > 4 ? comment.count_children-1 : nil)}) + (depth > 4 || comment.comments.length == 0 ? "" : content_tag(:div, nested_comments(comment.comments,true,depth+1), :class => 'nested_comment'))
 		end
 	end.join.html_safe if comments.is_a? Array
 	
@@ -153,12 +159,13 @@ module ApplicationHelper
 	def tagbox item 
 		buffer = '<div class="well" style="min-height: 5px; padding: 5px; padding-bottom: 0px;">' + "\n"
 		tag_cloud(item.tag_counts_on(:tags), %w(css1 css2 css3 css4)) do |tag, css_class| 
-			buffer << link_to(tag.name, '/tag/tagged/'+tag.name, :class => css_class) + " "
-			buffer << link_to((' ' + i('remove')).html_safe, '/tag/untag/'+tag.name+'?model='+item.class.to_s+'&id='+item.id.to_s) + " " if can(:admin)
+			buffer << link_to(tag.name, tagged_path(:tag => tag.name), :class => css_class) + " "
+			buffer << link_to((' ' + i('remove')).html_safe, untag_path(:tag => tag.name)+'?model='+item.class.to_s+'&id='+item.id.to_s) + " " if can(:admin)
 		end
-
+	
+		if can(:write)
 		buffer << '<h4>Add a Tag</h4>'
-		buffer << form_tag('/tag/tag') do
+		buffer << form_tag(tag_path) do
 			[
 				hidden_field_tag(:model, item.class.to_s),
 				hidden_field_tag(:id, item.id),
@@ -166,9 +173,37 @@ module ApplicationHelper
 				submit_tag("Add Tag")
 			].join.html_safe
 		end
+		end
 
 		buffer << "</div>"
 
+		buffer.html_safe
+	end
+
+	def pills_for collection, klass = nil
+		buffer = '<ul class="nav nav-pills ' + (klass ? klass : '') + '">' + "\n"
+		collection.each do |item|
+			buffer << '<li>' + link_to(item.display, item) + '</li>' + "\n"
+		end
+		buffer << '</ul>'
+		buffer.html_safe
+	end
+
+	def log_box log, chamber=true
+		lpath = log.action_item.is_a?(Chamber) ? log.action_item : [log.chamber, log.action_item]
+		ltext = ((log.action_item && log.action_item.display) ? (log.comment + ', ' + log.action_item.display) : log.comment).gsub('.', '')
+		buffer = '<div class="well">'
+		buffer <<  link_to(log.user.name, log.user) + " "
+		buffer << (can(:read, log.action_item) ? link_to(ltext, lpath) : log.comment.gsub('.', '') )
+		if log.action_item.is_a? Comment
+			buffer << ' - ' + (can(:read, log.action_item.superparent) ? link_to(log.action_item.superparent.display, [log.chamber, log.action_item.superparent]) : log.action_item.superparent.display )
+
+		end
+		if chamber && log.chamber && !log.action_item.is_a?(Chamber)
+			buffer << " in " 
+			buffer << (can(:read, log.chamber) ? link_to(log.chamber.title, log.chamber) : log.chamber.title)
+		end
+		buffer << "</div>"
 		buffer.html_safe
 	end
 end
