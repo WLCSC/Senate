@@ -190,6 +190,8 @@ module ApplicationHelper
 	end
 
 	def log_box log, chamber=true
+		if log.action_item
+			begin
 		lpath = log.action_item.is_a?(Chamber) ? log.action_item : [log.chamber, log.action_item]
 		ltext = ((log.action_item && log.action_item.display) ? (log.comment + ', ' + log.action_item.display) : log.comment).gsub('.', '')
 		buffer = '<div class="well">'
@@ -206,5 +208,19 @@ module ApplicationHelper
 		buffer << ' <span style="color: #666;">' + distance_of_time_in_words_to_now(log.created_at) + ' ago</span>'
 		buffer << "</div>"
 		buffer.html_safe
+			rescue Exception => e
+				if current_user.admin?
+					'<div class="well">' + e.to_s + '</div>'
+				else
+					''
+				end
+			end
+		else
+			if current_user.admin?
+					('<div class="well">' + log.id.to_s + ' - ' + (log.action_type ? log.action_type : "UNDEF") + ":#{log.action_id || 0}" + '[' + link_to(log.user.username, log.user) + ' ' + log.comment + ']' + '</div>').html_safe
+				else
+					''
+				end
+		end
 	end
 end

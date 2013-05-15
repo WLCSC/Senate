@@ -3,7 +3,7 @@ class Event < ActiveRecord::Base
 	belongs_to :chamber
 	has_many :attendees, :dependent => :destroy
 	has_many :users, :through => :attendees
-	validates :time, :presence => true
+	validates :timestring, :presence => true
 	attr_accessor :timestring
 
 	before_save :fix_time

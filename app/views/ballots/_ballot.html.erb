@@ -14,7 +14,9 @@
 <div class="proposal<%= ' old' if item.closed %>">
 	<%= link_to [@chamber, item] do %><h3>Ballot #<%= item.id %> - <%= item.title %></h3><% end %>
 	<h4>Proposed by <%= link_to (@chamber ? item.user.titleize(@chamber): item.user.name), item.user %> <%= time_delta item.created_at %></h4>
-	<h4><%= link_to (named_totals.length > 0 ? named_totals.map{|e| "#{e[0]}: #{e[1]}"}.join(', ') + " - See Details" : "No Votes Yet").html_safe, inspect_chamber_ballot_path(@chamber, item) %></h4>
+	<% if can :execute, item %>
+		<h4><%= link_to (named_totals.length > 0 ? named_totals.map{|e| "#{e[0]}: #{e[1]}"}.join(', ') + " - See Details" : "No Votes Yet").html_safe, inspect_chamber_ballot_path(@chamber, item) %></h4>
+	<% end %>
 	<%= markdown item.content %>
 
 

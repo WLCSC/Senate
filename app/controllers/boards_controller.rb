@@ -79,9 +79,11 @@ class BoardsController < ApplicationController
 		name = @board.display
 		if @board
     @board.destroy
-
+		Log.where(:action_type => 'Board', :action_id => params[:id]).each do |l|
+			l.destroy
+		end
+		Log.create(:user => current_user, :chamber => @chamber, :action_type => nil, :action_id => nil, :comment => "removed the #{name} discussion board")
     respond_to do |format|
-			Log.create(:user => current_user, :chamber => @chamber, :action_type => nil, :action_id => nil, :comment => "removed the #{name} discussion board")
       format.html { redirect_to chamber_boards_url(@chamber) }
       format.json { head :no_content }
     end

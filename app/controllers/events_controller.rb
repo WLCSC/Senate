@@ -78,6 +78,9 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
 		if @event
     @event.destroy
+		Log.where(:action_type => "Event", :action_id => params[:id]).each do |l|
+			l.destroy
+		end
 
     respond_to do |format|
       format.html { redirect_to chamber_events_url(@chamber) }

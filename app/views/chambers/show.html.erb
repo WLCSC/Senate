@@ -151,7 +151,7 @@ end
 			</p>
 			<% if current_user.admin? %>
 				<p>
-				<%= link_to (i('warning-sign') + "Permanently Destroy Chamber").html_safe, chamber_path(@chamber), :methd => 'delete', :class => 'btn btn-large btn-danger', :confirm => "Are you REALLY sure you want to PERMANENTLY DESTROY this chamber & everything in it?" %>
+				<%= link_to (i('warning-sign') + "Permanently Destroy Chamber").html_safe, chamber_path(@chamber), :method => 'delete', :class => 'btn btn-large btn-danger', :confirm => "Are you REALLY sure you want to PERMANENTLY DESTROY this chamber & everything in it?" %>
 				</p>
 			<% end %>
 		<% end %>	

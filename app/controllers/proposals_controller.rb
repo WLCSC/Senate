@@ -82,6 +82,9 @@ class ProposalsController < ApplicationController
 		if @proposal
 		@chamber = @proposal.chamber
     @proposal.destroy
+		Log.where(:action_type => "Proposal", :action_id => params[:id]).each do |l|
+			l.destroy
+		end
 
     respond_to do |format|
       format.html { redirect_to chamber_proposals_url(@chamber) }

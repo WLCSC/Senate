@@ -49,8 +49,8 @@ class AnnouncementsController < ApplicationController
     @announcement = Announcement.new(params[:announcement])
 
     respond_to do |format|
-			Log.create(:user => current_user, :chamber => @chamber, :action_type => "Announcement", :action_id => @announcement.id, :comment => "posted a new announcement")
       if @announcement.save
+			Log.create(:user => current_user, :chamber => @chamber, :action_type => "Announcement", :action_id => @announcement.id, :comment => "posted a new announcement")
         format.html { redirect_to @announcement.chamber, notice: 'Announcement was successfully created.' }
         format.json { render json: @announcement, status: :created, location: @announcement }
       else
@@ -85,7 +85,9 @@ class AnnouncementsController < ApplicationController
     @announcement = Announcement.find(params[:id])
 		if @announcement
     @announcement.destroy
-
+		Log.where(:action_type => 'Announcement', :action_id => params[:id]).each do |l|
+			l.destroy
+		end
     respond_to do |format|
       format.html { redirect_to @chamber }
       format.json { head :no_content }

@@ -86,6 +86,9 @@ class ChambersController < ApplicationController
 		if @chamber
 			@title = @chamber.title
 			@chamber.destroy
+			@chamber.logs.each do |l|
+				l.destroy
+			end
 			Log.create(:user => current_user, :chamber => nil, :action_type => nil, :action_id => nil, :comment => "removed a chamber - #{@title}")
 
 			respond_to do |format|

@@ -69,7 +69,9 @@ class BallotsController < ApplicationController
 		@ballot = Ballot.find(params[:id])
 		if @ballot
 			@ballot.destroy
-
+				Log.where(:action_type => 'Ballot', :action_id => params[:id]).each do |l|
+					l.destroy
+				end
 				Log.create(:user => current_user, :chamber => @chamber, :action_type => nil, :action_id => nil, :comment => "removed a ballot")
 			respond_to do |format|
 				format.html { redirect_to chamber_ballots_url(@chamber) }
@@ -83,11 +85,11 @@ class BallotsController < ApplicationController
 	def vote
 		@ballot = Ballot.find(params[:id])
 		if BallotRemark.where(:ballot_id => @ballot.id, :user_id => current_user.id).count > 0
-			redirect_to [@chamber, @ballot], :info => 'You already voted.'
+			redirect_to chamber_ballots_path(@chamber), :info => 'You already voted.'
 		else
 			BallotRemark.create!(:ballot_id => @ballot.id, :user_id => current_user.id, :remark => params[:remark])
 			Log.create(:user => current_user, :chamber => @chamber, :action_type => "Ballot", :action_id => @ballot.id, :comment => "voted on a ballot")
-			redirect_to [@chamber, @ballot], :info => 'Your vote has been submitted.'
+			redirect_to chamber_ballots_path(@chamber), :info => 'Your vote has been submitted.'
 		end
 	end
 
@@ -102,6 +104,6 @@ class BallotsController < ApplicationController
 	def cancel
 		@ballot = Ballot.find(params[:id])
 		@ballot.voted?(current_user).delete
-		redirect_to [@chamber, @ballot], :info => 'Your vote has been cancelled.'
+		redirect_to chamber_ballots_path(@chamber), :info => 'Your vote has been cancelled.'
 	end
 end

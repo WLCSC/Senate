@@ -9,7 +9,7 @@
 	<% else %>
 
 		<% if item.voted? current_user %>
-			<p>You voted alredy! <%= link_to "Cancel your vote", cancel_chamber_proposal_path(@chamber, item), :class => 'btn btn-mini btn-warning'  %></p>
+			<p>You voted already! <%= link_to "Cancel your vote", cancel_chamber_proposal_path(@chamber, item), :class => 'btn btn-mini btn-warning'  %></p>
 		<% else %> 	
 			<%= form_tag vote_chamber_proposal_path(@chamber, item) do |f| %> 
 				<%= hidden_field_tag :proposal_id, item.id %> 

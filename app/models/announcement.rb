@@ -48,4 +48,8 @@ def secures user
 		end
 		r
 	end
+
+	def display
+		''
+	end
 end

@@ -7,6 +7,9 @@ SimpleLdapAuthenticator.use_ssl = true
 def ldap_login user,pass
 	#r = Logger.new('auth.txt')
 	#r.info("Testing user #{user}")
+	if user.empty? || pass.empty?
+		false
+	end
 	if l = SimpleLdapAuthenticator.valid?(user,pass)
 		#r.info("Validated user #{user}")
 		l
