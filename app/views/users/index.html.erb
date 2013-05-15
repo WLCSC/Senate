@@ -20,3 +20,7 @@
     <% end %>
   </tbody>
 </table>
+
+<% if APP_CONFIG[:auth_local] && current_user.admin? %>
+    <%= link_to "Add a User", new_user_path, :class => 'btn btn-primary' %>
+<% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121210161931) do
+ActiveRecord::Schema.define(:version => 20130515170341) do
 
   create_table "announcements", :force => true do |t|
     t.text     "content"
@@ -199,6 +199,8 @@ ActiveRecord::Schema.define(:version => 20121210161931) do
     t.string   "email"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.string   "password_hash"
+    t.string   "password_salt"
   end
 
 end

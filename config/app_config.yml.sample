@@ -1,4 +1,8 @@
 development:
+	#use LDAP authentication?
+	auth_ldap: true
+	#use local users?
+	auth_ldap: true
   #your domain name - used for logging in as "domain\you"
   ldap_domain_login: test
   #your email domain name

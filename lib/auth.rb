@@ -36,7 +36,7 @@ def ldap_populate user, pass, obj=nil
 						group.users << u 
 					end
 				else
-					if group.users.include? u
+					if group.users.include? u && (group.memberships.where(:user_id => u.id).count > 0 && !group.memberships.where(:user_id => u.id).first.internal)
 						group.users.delete u
 					end
 				end

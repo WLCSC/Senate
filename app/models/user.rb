@@ -1,3 +1,5 @@
+require 'bcrypt'
+
 class User < ActiveRecord::Base
 	has_many :memberships
 	has_many :groups, :through => :memberships
@@ -15,6 +17,11 @@ class User < ActiveRecord::Base
 	has_many :entitlements
 	has_many :titles, :through => :entitlements
 	has_many :logs
+	attr_accessor :password
+	validates :username, :presence => true
+	validates :password, :confirmation => true
+
+	before_save :encrypt_password
 	before_create :create_principal
 
 	def display
@@ -24,6 +31,14 @@ class User < ActiveRecord::Base
 	def create_principal
 		self.build_principal.save
 	end
+
+	def encrypt_password
+		if password
+			self.password_salt = BCrypt::Engine.generate_salt
+			self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
+		end
+	end
+
 
 	def fqn
 		"wlcsc\\#{self.username}"
