@@ -94,14 +94,14 @@ class EventsController < ApplicationController
   def attend
 	@event = Event.find(params[:id])
 	Attendee.create!(:event_id => @event.id, :user_id => current_user.id)
-	Log.create(:user => current_user, :chamber => @chamber, :action_type => "Event", :action_id => @event.id, :comment => "is attending #{@event.display}")
+	Log.create(:user => current_user, :chamber => @chamber, :action_type => "Event", :action_id => @event.id, :comment => "is attending the event")
 	redirect_to [@chamber, @event], :info => 'You are now attending this event.'
   end
 
   def unattend
 	@event = Event.find(params[:id])
 	Attendee.where(:event_id => @event.id, :user_id => current_user.id).first.delete
-	Log.create(:user => current_user, :chamber => @chamber, :action_type => "Event", :action_id => @event.id, :comment => "is no longer attending #{@event.display}")
+	Log.create(:user => current_user, :chamber => @chamber, :action_type => "Event", :action_id => @event.id, :comment => "is no longer attending the event")
 	redirect_to [@chamber, @event], :info => 'You are no longer attending this event.'
   end
 end

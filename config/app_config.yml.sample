@@ -1,6 +1,6 @@
 development:
 	#use LDAP authentication?
-	auth_ldap: true
+	auth_ldap: false
 	#use local users?
 	auth_ldap: true
   #your domain name - used for logging in as "domain\you"

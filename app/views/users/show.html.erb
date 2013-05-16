@@ -47,7 +47,7 @@
 <div class="span4 offset1">
 	<h2>Recent Activity</h2>
 	<% @user.logs.order("created_at DESC").limit(20).each do |log| %>
-		<%= log_box log %>
+		<%= log_box(log).html_safe %>
 			<% end %>
 </div>
 </div>

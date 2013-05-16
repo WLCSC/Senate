@@ -34,4 +34,8 @@ class Event < ActiveRecord::Base
 	def old?
 		self.time < Time.now
 	end
+
+    def can? *args
+        self.chamber.can? *args
+    end
 end

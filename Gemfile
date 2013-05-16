@@ -49,3 +49,4 @@ gem "bluecloth"
 gem "mysql2"
 gem "less-rails"
 gem 'acts-as-taggable-on'
+gem 'thin'

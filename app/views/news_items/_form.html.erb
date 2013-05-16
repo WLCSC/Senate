@@ -4,6 +4,6 @@
     <%= f.text_area :content %>
   </p>
   <%= f.hidden_field :user_id, :value => current_user.id %>
-  <p><%= f.submit %></p>
+  <p><%= f.submit :class => 'btn btn-primary' %></p>
 <% end %>
 
