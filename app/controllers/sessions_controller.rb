@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
 		params[:username].downcase!
 		user = User.where(:username => params[:username]).first
 		n = nil
-		if APP_CONFIG[:auth_ldap] && user.password_hash == nil
+		if APP_CONFIG[:auth_ldap] && (!user || (user && user.password_hash == nil))
 			puts "LDAP"
 			lgi = ldap_login(params[:username], params[:password])
 			if lgi && lgi.length > 0
